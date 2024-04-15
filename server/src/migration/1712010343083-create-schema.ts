@@ -148,6 +148,12 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                             "AXXXL",
                         ],
                     },
+                    {
+                        name: "status",
+                        isNullable: false,
+                        type: "enum",
+                        enum: ["ACTIVE", "INACTIVE"],
+                    },
                 ],
             }),
             true //execute synchronously
@@ -234,7 +240,40 @@ export class CreateSchema1712010343083 implements MigrationInterface {
         await queryRunner.createTable(
             new Table({
                 name: "attendance",
-                columns: [],
+                columns: [
+                    {
+                        name: "id",
+                        isNullable: false,
+                        generationStrategy: "uuid",
+                        type: "uuid",
+                        isPrimary: true,
+                    },
+                    {
+                        name: "roster_id",
+                        type: "uuid",
+                        isNullable: false,
+                    },
+                    {
+                        name: "present_date",
+                        type: "date",
+                    },
+                    {
+                        name: "daraz",
+                        type: "boolean",
+                    },
+                    {
+                        name: "paid",
+                        type: "boolean",
+                    },
+                ],
+                foreignKeys: [
+                    {
+                        columnNames: ["roster_id"],
+                        referencedTableName: "roster",
+                        referencedColumnNames: ["id"],
+                        onDelete: "CASCADE",
+                    },
+                ],
             }),
             true
         );
