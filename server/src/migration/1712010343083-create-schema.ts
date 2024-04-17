@@ -1,6 +1,5 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { Table, TableIndex, TableColumn, TableForeignKey } from "typeorm";
-import { UUID } from "typeorm/driver/mongodb/bson.typings";
+import { Table } from "typeorm";
 
 enum Khoump {
     KYLIG = "kylig",
@@ -87,7 +86,6 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                             Khoump.KERAKOUYN,
                         ],
                         type: "enum",
-                        default: Khoump.KYLIG,
                     },
                     {
                         name: "date_of_birth",
@@ -279,5 +277,40 @@ export class CreateSchema1712010343083 implements MigrationInterface {
         );
     }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {}
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        //const usersTable = await queryRunner.getTable("users")
+        //const rosterTable = await queryRunner.getTable("roster")
+        const accoladeTable = await queryRunner.getTable("scout_accolades");
+        const attendanceTable = await queryRunner.getTable("attendance");
+
+        const fkAccoladeTable = accoladeTable?.foreignKeys.find(
+            (fk) => fk.columnNames.indexOf("roster_id") !== -1
+        );
+
+        const fkAttendanceTable = attendanceTable?.foreignKeys.find(
+            (fk) => fk.columnNames.indexOf("roster_id") !== -1
+        );
+
+        if (fkAccoladeTable) {
+            await queryRunner.dropForeignKey(
+                "scout_accolades",
+                fkAccoladeTable
+            );
+        } else {
+            console.log("Foreign key for Accolade Table not found");
+        }
+
+        if (fkAttendanceTable) {
+            await queryRunner.dropForeignKey("attendance", fkAttendanceTable);
+        } else {
+            console.log("Foreign key for Attendance table not found");
+        }
+
+        await queryRunner.dropColumn("scout_accolades", "roster_id");
+        await queryRunner.dropColumn("attendance", "roster_id");
+        await queryRunner.dropTable("users");
+        await queryRunner.dropTable("roster");
+        await queryRunner.dropTable("scout_accolades");
+        await queryRunner.dropTable("attendance");
+    }
 }

@@ -2,8 +2,7 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 
 const ormConfig = require("../ormconfig");
-const { type, url, entities, migrations, cli, synchronize, logging } =
-    ormConfig;
+const { type, url, entities, synchronize, logging } = ormConfig;
 
 const connectToDB = new DataSource({
     type: type,
@@ -11,6 +10,7 @@ const connectToDB = new DataSource({
     logging: logging,
     synchronize: synchronize,
     entities: entities,
+    migrations: ["src/migration/*.ts"],
 });
 
 connectToDB
