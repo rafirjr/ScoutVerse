@@ -55,7 +55,7 @@ export class CreateSchema1712010343083 implements MigrationInterface {
 
         await queryRunner.createTable(
             new Table({
-                name: "roster",
+                name: "scout",
                 columns: [
                     {
                         name: "id",
@@ -114,6 +114,11 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                         length: "11",
                     },
                     {
+                        name: "contact_email",
+                        type: "varchar",
+                        isUnique: true,
+                    },
+                    {
                         name: "parent_name",
                         type: "varchar",
                     },
@@ -152,6 +157,18 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                         type: "enum",
                         enum: ["ACTIVE", "INACTIVE"],
                     },
+                    {
+                        name: "createdAt",
+                        type: "timestamp",
+                        default: "now()",
+                        isNullable: false,
+                    },
+                    {
+                        name: "updatedAt",
+                        type: "timestamp",
+                        default: "now()",
+                        isNullable: false,
+                    },
                 ],
             }),
             true //execute synchronously
@@ -162,14 +179,14 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                 name: "scout_accolades",
                 columns: [
                     {
-                        name: "id",
+                        name: "accolade_id",
                         isNullable: false,
                         generationStrategy: "uuid",
                         type: "uuid",
                         isPrimary: true,
                     },
                     {
-                        name: "roster_id",
+                        name: "scout_id",
                         type: "uuid",
                         isNullable: false,
                     },
@@ -225,8 +242,8 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                 ],
                 foreignKeys: [
                     {
-                        columnNames: ["roster_id"],
-                        referencedTableName: "roster",
+                        columnNames: ["scout_id"],
+                        referencedTableName: "scout",
                         referencedColumnNames: ["id"],
                         onDelete: "CASCADE",
                     },
@@ -240,14 +257,14 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                 name: "attendance",
                 columns: [
                     {
-                        name: "id",
+                        name: "attendance_id",
                         isNullable: false,
                         generationStrategy: "uuid",
                         type: "uuid",
                         isPrimary: true,
                     },
                     {
-                        name: "roster_id",
+                        name: "scout_id",
                         type: "uuid",
                         isNullable: false,
                     },
@@ -266,8 +283,8 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                 ],
                 foreignKeys: [
                     {
-                        columnNames: ["roster_id"],
-                        referencedTableName: "roster",
+                        columnNames: ["scout_id"],
+                        referencedTableName: "scout",
                         referencedColumnNames: ["id"],
                         onDelete: "CASCADE",
                     },
@@ -284,11 +301,11 @@ export class CreateSchema1712010343083 implements MigrationInterface {
         const attendanceTable = await queryRunner.getTable("attendance");
 
         const fkAccoladeTable = accoladeTable?.foreignKeys.find(
-            (fk) => fk.columnNames.indexOf("roster_id") !== -1
+            (fk) => fk.columnNames.indexOf("scout_id") !== -1
         );
 
         const fkAttendanceTable = attendanceTable?.foreignKeys.find(
-            (fk) => fk.columnNames.indexOf("roster_id") !== -1
+            (fk) => fk.columnNames.indexOf("scout_id") !== -1
         );
 
         if (fkAccoladeTable) {
@@ -306,10 +323,10 @@ export class CreateSchema1712010343083 implements MigrationInterface {
             console.log("Foreign key for Attendance table not found");
         }
 
-        await queryRunner.dropColumn("scout_accolades", "roster_id");
-        await queryRunner.dropColumn("attendance", "roster_id");
+        await queryRunner.dropColumn("scout_accolades", "scout_id");
+        await queryRunner.dropColumn("attendance", "scout_id");
         await queryRunner.dropTable("users");
-        await queryRunner.dropTable("roster");
+        await queryRunner.dropTable("scout");
         await queryRunner.dropTable("scout_accolades");
         await queryRunner.dropTable("attendance");
     }
