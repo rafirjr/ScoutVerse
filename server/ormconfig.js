@@ -12,7 +12,7 @@ module.exports = {
     `${type}://${username}:${password}@${host}:${port}/${database}`,
   entities: [
     process.env.NODE_ENV === 'test'
-      ? 'src/entity/**/*.ts'
+      ? 'src/entity/*.ts'
       : 'build/entity/**/*.js',
   ],
   migrations: [

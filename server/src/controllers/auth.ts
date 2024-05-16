@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import { JWT_SECRET } from "../utils/config";
 import { registerValidator, loginValidator } from "../utils/validators";
 import { ILike } from "typeorm";
+import connectToDB from "../db";
 
 export const signUpUser = async (req: Request, res: Response) => {
     const { username, password } = req.body;
@@ -14,7 +15,7 @@ export const signUpUser = async (req: Request, res: Response) => {
         return res.status(400).send({ message: Object.values(errors)[0] });
     }
 
-    const existingUser = await User.findOne({
+    const existingUser = await connectToDB.manager.findOne(User, {
         where: {
             username: ILike(username),
         },
@@ -24,6 +25,8 @@ export const signUpUser = async (req: Request, res: Response) => {
         return res
             .status(401)
             .send({ message: `Username '${username}' is already taken.` });
+    } else {
+        //res.send({ message: "Username is not taken." });
     }
 
     const saltRounds = 10;

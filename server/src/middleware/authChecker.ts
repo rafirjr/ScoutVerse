@@ -7,7 +7,11 @@ interface TokenInterface {
     username: string;
 }
 
-const authChecker = (req: Request, res: Response, next: NextFunction) => {
+interface AuthRequest extends Request {
+    user_token?: string;
+}
+
+const authChecker = (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
         const token = req.header("x-auth-token");
 
@@ -20,14 +24,12 @@ const authChecker = (req: Request, res: Response, next: NextFunction) => {
         const decodedToken = jwt.verify(token, JWT_SECRET) as TokenInterface;
 
         if (!decodedToken.id) {
-            return res
-                .status(401)
-                .send({
-                    message: "Token verification failed. Authorization denied.",
-                });
+            return res.status(401).send({
+                message: "Token verification failed. Authorization denied.",
+            });
         }
 
-        req.user = decodedToken.id;
+        req.user_token = decodedToken.id;
         next();
     } catch (error: any) {
         res.status(500).send({ message: error.message });

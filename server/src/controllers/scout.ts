@@ -12,7 +12,7 @@ enum Khoump {
     KERAKOUYN = "kerakouyn",
 }
 
-export const getAllScouts = async (req: Request, res: Response) => {
+export const getAllScouts = async (_req: Request, res: Response) => {
     const scouts = await Scout.find();
     res.json(scouts);
 };

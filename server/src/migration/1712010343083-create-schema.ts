@@ -21,7 +21,7 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                 columns: [
                     {
                         name: "id",
-                        isNullable: false,
+                        isNullable: true,
                         generationStrategy: "uuid",
                         type: "uuid",
                         isPrimary: true,
