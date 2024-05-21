@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth";
 import userRoutes from "./routes/user";
 import scoutRoutes from "./routes/scout";
 
+
 const app = express();
 
 app.use(cors());

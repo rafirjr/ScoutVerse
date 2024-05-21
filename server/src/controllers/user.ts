@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { User } from "../entity/User";
-import { Not } from "typeorm";
+//import { Not } from "typeorm";
 
-export const getAllUsers = async (req: Request, res: Response) => {
-    const { userID } = req.params;
+export const getAllUsers = async (_req: Request, res: Response) => {
+    //const { userID } = req.params;
 
     const users = await User.find({
-        where: { id: Not(userID) },
+        //where: { id: Not(userID) },
         select: ["id", "username"],
     });
 

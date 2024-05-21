@@ -2,25 +2,44 @@ import { Request, Response } from "express";
 import { Scout } from "../entity/Scout";
 import { ILike } from "typeorm";
 
-enum Khoump {
-    KYLIG = "kylig",
-    ARDZVIG = "ardzvig",
-    ARI = "ari",
-    ARENOUSH = "arenoush",
-    YERETS = "yerets",
-    BARMANOUHI = "barmanouhi",
-    KERAKOUYN = "kerakouyn",
-}
+// enum Khoump {
+//     KYLIG = "kylig",
+//     ARDZVIG = "ardzvig",
+//     ARI = "ari",
+//     ARENOUSH = "arenoush",
+//     YERETS = "yerets",
+//     BARMANOUHI = "barmanouhi",
+//     KERAKOUYN = "kerakouyn",
+// }
+
+const Khoump = [
+    "kylig",
+    "ardzvig",
+    "ari",
+    "arenoush",
+    "yerets",
+    "barmanouhi",
+    "kerakouyn",
+];
 
 export const getAllScouts = async (_req: Request, res: Response) => {
-    const scouts = await Scout.find();
+    const scouts = await Scout.find({
+        select: ["id", "first_name", "last_name", "khoump"],
+    });
     res.json(scouts);
 };
 
 export const getScoutGroup = async (req: Request, res: Response) => {
-    const group = req.body;
+    const group = req.params.group;
+    var allow = false;
 
-    if (!Object.values(Khoump).includes(group)) {
+    for (var i = 0; i < Khoump.length; i++) {
+        if (group == Khoump[i]) {
+            allow = true;
+        }
+    }
+
+    if (!allow) {
         return res
             .status(401)
             .send({ message: "Passed in Khoump does not exist." });
@@ -36,9 +55,14 @@ export const getScoutGroup = async (req: Request, res: Response) => {
 };
 
 export const getScout = async (req: Request, res: Response) => {
-    const scoutID = req.params;
+    const scoutID = req.params.scoutID;
+    console.log(scoutID);
 
-    const scout = await Scout.findOne(scoutID);
+    const scout = await Scout.findOne({
+        where: {
+            id: scoutID,
+        },
+    });
 
     if (!scout) {
         return res.status(404).send({ message: "Invalid scout ID." });
@@ -60,7 +84,7 @@ export const deleteScout = async (req: Request, res: Response) => {
 };
 
 export const addScout = async (req: Request, res: Response) => {
-    const { body } = req.body;
+    const body = req.body;
 
     if (!body) {
         return res

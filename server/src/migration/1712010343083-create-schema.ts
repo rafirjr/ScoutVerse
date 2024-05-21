@@ -1,15 +1,15 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { Table } from "typeorm";
 
-enum Khoump {
-    KYLIG = "kylig",
-    ARDZVIG = "ardzvig",
-    ARI = "ari",
-    ARENOUSH = "arenoush",
-    YERETS = "yerets",
-    BARMANOUHI = "barmanouhi",
-    KERAKOUYN = "kerakouyn",
-}
+// enum Khoump {
+//     KYLIG = "kylig",
+//     ARDZVIG = "ardzvig",
+//     ARI = "ari",
+//     ARENOUSH = "arenoush",
+//     YERETS = "yerets",
+//     BARMANOUHI = "barmanouhi",
+//     KERAKOUYN = "kerakouyn",
+// }
 
 export class CreateSchema1712010343083 implements MigrationInterface {
     name = "CreateSchema1712010343083";
@@ -21,7 +21,7 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                 columns: [
                     {
                         name: "id",
-                        isNullable: true,
+                        isNullable: false,
                         generationStrategy: "uuid",
                         type: "uuid",
                         isPrimary: true,
@@ -76,16 +76,16 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                     },
                     {
                         name: "khoump",
+                        type: "varchar",
                         enum: [
-                            Khoump.ARDZVIG,
-                            Khoump.KYLIG,
-                            Khoump.ARENOUSH,
-                            Khoump.ARI,
-                            Khoump.BARMANOUHI,
-                            Khoump.YERETS,
-                            Khoump.KERAKOUYN,
+                            "kylig",
+                            "ardzvig",
+                            "ari",
+                            "arenoush",
+                            "yerets",
+                            "barmanouhi",
+                            "kerakouyn",
                         ],
-                        type: "enum",
                     },
                     {
                         name: "date_of_birth",
@@ -95,28 +95,34 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                     {
                         name: "street",
                         type: "varchar",
+                        isNullable: true,
                     },
                     {
                         name: "city",
                         type: "varchar",
+                        isNullable: true,
                     },
                     {
                         name: "state",
                         type: "varchar",
+                        isNullable: true,
                     },
                     {
                         name: "zip_code",
                         type: "varchar",
+                        isNullable: true,
                     },
                     {
                         name: "contact_number",
                         type: "varchar",
                         length: "11",
+                        isNullable: true,
                     },
                     {
                         name: "contact_email",
                         type: "varchar",
                         isUnique: true,
+                        isNullable: true,
                     },
                     {
                         name: "parent_name",
@@ -134,6 +140,7 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                     {
                         name: "allergies",
                         type: "varchar",
+                        isNullable: true,
                     },
                     {
                         name: "size",

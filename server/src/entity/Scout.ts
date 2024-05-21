@@ -1,15 +1,25 @@
 import BaseModel from "./BaseModel";
 import { Column, Entity } from "typeorm";
 
-enum Khoump {
-    KYLIG = "kylig",
-    ARDZVIG = "ardzvig",
-    ARI = "ari",
-    ARENOUSH = "arenoush",
-    YERETS = "yerets",
-    BARMANOUHI = "barmanouhi",
-    KERAKOUYN = "kerakouyn",
-}
+// enum Khoump {
+//     KYLIG = "kylig",
+//     ARDZVIG = "ardzvig",
+//     ARI = "ari",
+//     ARENOUSH = "arenoush",
+//     YERETS = "yerets",
+//     BARMANOUHI = "barmanouhi",
+//     KERAKOUYN = "kerakouyn",
+// }
+
+const Khoump = [
+    "kylig",
+    "ardzvig",
+    "ari",
+    "arenoush",
+    "yerets",
+    "barmanouhi",
+    "kerakouyn",
+];
 
 const shirt_size = [
     "YS",
@@ -32,8 +42,8 @@ export class Scout extends BaseModel {
     @Column({ type: "varchar", length: 15 })
     last_name: string;
 
-    @Column({ type: "enum", enum: Khoump, default: Khoump.KYLIG })
-    khoump: Khoump;
+    @Column({ type: "enum", enum: Khoump })
+    khoump: string;
 
     @Column({ type: "date" })
     date_of_birth: Date;
