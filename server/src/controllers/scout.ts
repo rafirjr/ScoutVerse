@@ -24,7 +24,7 @@ const Khoump = [
 
 export const getAllScouts = async (_req: Request, res: Response) => {
     const scouts = await Scout.find({
-        select: ["id", "first_name", "last_name", "khoump"],
+        select: ["id", "first_name", "last_name", "khoump", "status"],
     });
     res.json(scouts);
 };
@@ -56,7 +56,6 @@ export const getScoutGroup = async (req: Request, res: Response) => {
 
 export const getScout = async (req: Request, res: Response) => {
     const scoutID = req.params.scoutID;
-    console.log(scoutID);
 
     const scout = await Scout.findOne({
         where: {
@@ -72,14 +71,20 @@ export const getScout = async (req: Request, res: Response) => {
 };
 
 export const deleteScout = async (req: Request, res: Response) => {
-    const scoutID = req.params;
+    const scoutID = req.params.scoutID;
 
-    const scout = await Scout.findOne(scoutID);
+    const scout = await Scout.findOne({
+        where: {
+            id: scoutID,
+        },
+    });
+
     if (!scout) {
         return res.status(404).send({ message: "Invalid scout ID." });
     }
 
     scout.status = "INACTIVE";
+    Scout.save(scout);
     res.status(204).end();
 };
 
@@ -121,8 +126,8 @@ export const addScout = async (req: Request, res: Response) => {
 };
 
 export const updateScout = async (req: Request, res: Response) => {
-    const { body } = req.body;
-    const scoutID = req.params;
+    const body = req.body;
+    const scoutID = req.params.scoutID;
 
     if (!body) {
         return res
@@ -130,7 +135,11 @@ export const updateScout = async (req: Request, res: Response) => {
             .send({ message: "Body field must not be empty." });
     }
 
-    const scout = await Scout.findOne(scoutID);
+    const scout = await Scout.findOne({
+        where: {
+            id: scoutID,
+        },
+    });
 
     if (!scout) {
         return res.status(404).send({ message: "Invalid scout ID." });
