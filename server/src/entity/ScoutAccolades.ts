@@ -1,5 +1,6 @@
 import {
     BaseEntity,
+    BeforeInsert,
     Column,
     Entity,
     JoinColumn,
@@ -7,11 +8,12 @@ import {
     PrimaryGeneratedColumn,
 } from "typeorm";
 import { Scout } from "./Scout";
+import { v4 as uuidv4 } from "uuid";
 
-@Entity({ name: "scoutaccolades" })
+@Entity({ name: "scout_accolades" })
 export class ScoutAccolades extends BaseEntity {
     @PrimaryGeneratedColumn("uuid")
-    accolade_id: string;
+    accolade_id: string = uuidv4();
 
     @ManyToOne(() => Scout, (scout) => scout)
     @JoinColumn({ name: "scout_id" })
@@ -22,6 +24,9 @@ export class ScoutAccolades extends BaseEntity {
     @Column({
         type: "enum",
         enum: [
+            "gagough tatig",
+            "miastkh",
+            "yergastkh",
             "norakir",
             "norendza",
             "pen gark",
@@ -67,4 +72,9 @@ export class ScoutAccolades extends BaseEntity {
 
     @Column({ type: "date" })
     bashdon_date: Date;
+
+    @BeforeInsert()
+    generateId() {
+        this.accolade_id = uuidv4();
+    }
 }

@@ -201,6 +201,9 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                         name: "gark_accolade",
                         type: "enum",
                         enum: [
+                            "gagough tatig",
+                            "miastkh",
+                            "yergastkh",
                             "norakir",
                             "norendza",
                             "pen gark",
@@ -208,10 +211,12 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                             "vgayal",
                             "araratian",
                         ],
+                        isNullable: true,
                     },
                     {
                         name: "gark_date",
-                        type: "date", // In PostgreSQL the format is 'YYYY-MM-DD'
+                        type: "date", // In PostgreSQL the format is 'YYYY-MM-DD',
+                        isNullable: true,
                     },
                     {
                         name: "astijan_accolade",
@@ -223,10 +228,12 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                             "pokh_khmpabed",
                             "khmpabed",
                         ],
+                        isNullable: true,
                     },
                     {
                         name: "astijan_date",
                         type: "date", // In PostgreSQL the format is 'YYYY-MM-DD'
+                        isNullable: true,
                     },
                     {
                         name: "bashdon_accolade",
@@ -241,10 +248,12 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                             "masnajooghi_pokh_khmpabed",
                             "masnajooghi_khmpabed",
                         ],
+                        isNullable: true,
                     },
                     {
                         name: "bashdon_date",
                         type: "date", // In PostgreSQL the format is 'YYYY-MM-DD'
+                        isNullable: true,
                     },
                 ],
                 foreignKeys: [
