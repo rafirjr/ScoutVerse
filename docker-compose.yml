@@ -13,14 +13,7 @@ services:
             - db
         environment:
             - NODE_ENV=test
-            - DATABASE_HOST=localhost
-            - DATABASE_PORT=5432
-            - DATABASE_USER=postgres
-            - DATABASE_PASSWORD=postgres
-            - DATABASE_NAME=scout_verse
-        networks:
-            - frontend
-            - backend
+            - TYPEORM_HOST=db
 
     client:
         build:
@@ -32,8 +25,6 @@ services:
             - /usr/src/app/node_modules
         ports:
             - "3001:3000"
-        networks:
-            - frontend
 
     db:
         image: postgres:13
@@ -45,12 +36,6 @@ services:
             - postgres_data:/var/lib/postgresql/data
         ports:
             - "5432:5432"
-        networks:
-            - backend
 
 volumes:
     postgres_data:
-
-networks:
-    frontend:
-    backend:
