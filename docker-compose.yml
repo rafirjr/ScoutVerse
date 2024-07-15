@@ -1,41 +1,44 @@
+version: "3"
+
 services:
-    server:
-        build:
-            context: ./server
-            dockerfile: Dockerfile
-        working_dir: /usr/src/app
-        volumes:
-            - ./server:/usr/src/app
-            - /usr/src/app/node_modules
-        ports:
-            - "3000:3000"
-        depends_on:
-            - db
-        environment:
-            - NODE_ENV=test
-            - TYPEORM_HOST=db
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    working_dir: /usr/src/app
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - NODE_ENV=test
+      - TYPEORM_HOST=db
+      - PORT=3000
 
-    client:
-        build:
-            context: ./scoutverse
-            dockerfile: Dockerfile
-        working_dir: /usr/src/app
-        volumes:
-            - ./scoutverse:/usr/src/app
-            - /usr/src/app/node_modules
-        ports:
-            - "3001:3000"
+  client:
+    build:
+      context: ./scoutverse
+      dockerfile: Dockerfile
+    working_dir: /usr/src/app
+    volumes:
+      - ./scoutverse:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3001:3000"
 
-    db:
-        image: postgres:13
-        environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
-            - POSTGRES_DB=scout_verse
-        volumes:
-            - postgres_data:/var/lib/postgresql/data
-        ports:
-            - "5432:5432"
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=scout_verse
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
 
 volumes:
-    postgres_data:
+  postgres_data:
