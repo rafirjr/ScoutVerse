@@ -14,3 +14,8 @@ export interface CredentialsPayload {
     username: string;
     password: string;
 }
+
+export interface NotifPayload {
+    message: string;
+    type: 'success' | 'error';
+}

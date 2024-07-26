@@ -22,6 +22,6 @@ const loadUser = () => {
 
 const removeUser = () => localStorage.removeItem(storageKeyUser);
 
-const storage = { saveUser, loadUser };
+const storage = { saveUser, loadUser, removeUser };
 
 export default storage;
