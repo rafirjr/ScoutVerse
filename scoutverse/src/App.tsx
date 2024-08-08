@@ -1,7 +1,7 @@
 import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, useNavigate, Navigate } from "react-router-dom";
-import LogIn from './pages/LogIn'
+import SignInPage from './pages/SignInPage'
 import Dashboard from "./pages/Dashboard";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
@@ -21,7 +21,7 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Home/>} />
-                <Route path="/login" element={!isLoggedIn ? <LogIn/> : <Navigate to="/dashboard"/>}/>
+                <Route path="/signin" element={!isLoggedIn ? <SignInPage/> : <Navigate to="/dashboard"/>}/>
                 <Route path="/signup" element={!isLoggedIn ? <SignUp/> : <Navigate to="/dashboard"/>}/>
                 <Route path="/dashboard" element={isLoggedIn ? <Dashboard/> : <Navigate to="/login"/>}/>
                 

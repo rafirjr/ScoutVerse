@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/homenetmen-scouts-logo-01-1.png";
 import vahan from "../assets/Hmemlogo2019.png"
-import SignIn from "../components/signin";
+import Signin from "../components/signin";
 
 const LogIn: React.FC = () => {
     
@@ -34,7 +34,7 @@ const LogIn: React.FC = () => {
                     </div>
                     <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center bg-slate-500">
                         <div>
-                            <SignIn />
+                            <Signin />
                         </div>
                     </div>
                 </div>
