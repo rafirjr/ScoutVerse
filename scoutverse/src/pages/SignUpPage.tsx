@@ -1,8 +1,8 @@
 import React from "react";
 import logo from "../assets/homenetmen-scouts-logo-01-1.png";
-import Signup from "../components/signup"
+import Signup from "../components/signup";
 
-const SignUp: React.FC = () => {
+const SignUpPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
             <div className="container mx-auto h-10"></div>
@@ -37,6 +37,6 @@ const SignUp: React.FC = () => {
             </div>
         </div>
     );
-}
+};
 
-export default SignUp
+export default SignUpPage;

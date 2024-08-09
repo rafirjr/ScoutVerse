@@ -4,7 +4,7 @@ import logo from "../assets/homenetmen-scouts-logo-01-1.png";
 import vahan from "../assets/Hmemlogo2019.png"
 import Signin from "../components/signin";
 
-const LogIn: React.FC = () => {
+const SignInPage: React.FC = () => {
     
 
     return (
@@ -43,4 +43,4 @@ const LogIn: React.FC = () => {
     );
 };
 
-export default LogIn;
+export default SignInPage;
