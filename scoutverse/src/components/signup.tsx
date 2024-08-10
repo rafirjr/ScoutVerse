@@ -27,6 +27,8 @@ interface InputValues {
 }
 
 const validationSchema = yup.object({
+    firstname: yup.string(),
+    lastname: yup.string(),
   username: yup.string().required('Required').max(20, 'Must be at most 20 characters').min(3, 'Must be at least 3 characters')..matches(
     /^[a-zA-Z0-9-_]*$/,
     'Only alphanum, dash & underscore characters are allowed'
@@ -62,15 +64,50 @@ const SignUp: React.FC = () => {
     return (
         <div className="flex items-center justify-center rounded-xl bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
-                {/* <div className="flex justify-center items-center ">
-            <img src={vahan} alt="" className="w-20 h-17"/>
-        </div> */}
                 <form
                     className="mt-8 space-y-6"
                     onSubmit={handleSubmit(handleSignUp)}
                 >
                     <input type="hidden" name="remember" value="true" />
                     <div className="rounded-md shadow-sm -space-y-px">
+                        <div>
+                            <label htmlFor="first_name" className="sr-only">
+                                First Name
+                            </label>
+                            <input
+                                id="first_name"
+                                type="text"
+                                autoComplete="first_name"
+                                required
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                placeholder="First Name"
+                                {...register("firstname")}
+                            />
+                            {errors.firstname && (
+                                <p style={{ color: "red" }}>
+                                    {errors.firstname.message}
+                                </p>
+                            )}
+                        </div>
+                        <div>
+                            <label htmlFor="last_name" className="sr-only">
+                                Last Name
+                            </label>
+                            <input
+                                id="last_name"
+                                type="text"
+                                autoComplete="last_name"
+                                required
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                placeholder="Last Name"
+                                {...register("lastname")}
+                            />
+                            {errors.lastname && (
+                                <p style={{ color: "red" }}>
+                                    {errors.lastname.message}
+                                </p>
+                            )}
+                        </div>
                         <div>
                             <label htmlFor="username" className="sr-only">
                                 Username
@@ -102,6 +139,18 @@ const SignUp: React.FC = () => {
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Password"
                                 {...register("password")}
+                            />
+                            <label htmlFor="confirmPassword" className="sr-only">
+                                Confirm Password
+                            </label>
+                            <input
+                                id="confirmPassword"
+                                type={showPass ? "text" : "password"}
+                                autoComplete="current-password"
+                                required
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                placeholder="Confirm Password"
+                                {...register("confirmPassword")}
                             />
                             <button
                                 type="button"
