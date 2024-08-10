@@ -6,10 +6,14 @@ import axios from "axios";
 import backendUrl from "../backendUrl";
 import { useAppDispatch } from "../redux/hooks";
 import { useSelector } from "react-redux";
-import { selectAuthState, setAuthError, signup } from "../redux/slices/authSlice";
+import {
+    selectAuthState,
+    setAuthError,
+    signup,
+} from "../redux/slices/authSlice";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from 'yup';
+import * as yup from "yup";
 
 /**
  * SignIn component handles the sign in of the user. The email and password the user inputs is saved into "email" and "password"
@@ -27,15 +31,26 @@ interface InputValues {
 }
 
 const validationSchema = yup.object({
-    firstname: yup.string(),
-    lastname: yup.string(),
-  username: yup.string().required('Required').max(20, 'Must be at most 20 characters').min(3, 'Must be at least 3 characters')..matches(
-    /^[a-zA-Z0-9-_]*$/,
-    'Only alphanum, dash & underscore characters are allowed'
-  ),
-  password: yup.string().required('Required').min(6, 'Must be at least 6 characters'),
-  confirmPassword: yup.string().required('Required').min(6, 'Must be at least 6 characters')
-})
+    firstname: yup.string().required("Required"),
+    lastname: yup.string().required("Required"),
+    username: yup
+        .string()
+        .required("Required")
+        .max(20, "Must be at most 20 characters")
+        .min(3, "Must be at least 3 characters")
+        .matches(
+            /^[a-zA-Z0-9-_]*$/,
+            "Only alphanum, dash & underscore characters are allowed"
+        ),
+    password: yup
+        .string()
+        .required("Required")
+        .min(6, "Must be at least 6 characters"),
+    confirmPassword: yup
+        .string()
+        .required("Required")
+        .min(6, "Must be at least 6 characters"),
+});
 
 const SignUp: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -46,20 +61,25 @@ const SignUp: React.FC = () => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm({
+    } = useForm<InputValues>({
         mode: "onChange",
         resolver: yupResolver(validationSchema),
     });
 
     const handleSignUp = ({
-      firstname, lastname, username, password, confirmPassword
-    } : InputValues) => {
-      if(password !== confirmPassword) {
-        return dispatch(setAuthError('Both passwords need to match.'));
-      }
-      dispatch(signup({ username, password }))
-    }
+        firstname,
+        lastname,
+        username,
+        password,
+        confirmPassword,
+    }: InputValues) => {
+        if (password !== confirmPassword) {
+            return dispatch(setAuthError("Both passwords need to match."));
+        }
+        dispatch(signup({ username, password }));
+    };
 
+    const navigate = useNavigate();
 
     return (
         <div className="flex items-center justify-center rounded-xl bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -81,7 +101,7 @@ const SignUp: React.FC = () => {
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="First Name"
-                                {...register("firstname")}
+                                //{...register("firstname")}
                             />
                             {errors.firstname && (
                                 <p style={{ color: "red" }}>
@@ -100,7 +120,7 @@ const SignUp: React.FC = () => {
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Last Name"
-                                {...register("lastname")}
+                                //{...register("lastname")}
                             />
                             {errors.lastname && (
                                 <p style={{ color: "red" }}>
@@ -140,7 +160,32 @@ const SignUp: React.FC = () => {
                                 placeholder="Password"
                                 {...register("password")}
                             />
-                            <label htmlFor="confirmPassword" className="sr-only">
+                            <button
+                                type="button"
+                                onClick={() => setShowPass(!showPass)}
+                                style={{
+                                    position: "absolute",
+                                    right: "10px",
+                                    top: "50%",
+                                    transform: "translateY(-50%)",
+                                    background: "none",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    padding: 0,
+                                    margin: 0,
+                                }}
+                            >
+                                {showPass ? "Hide" : "Show"}
+                            </button>
+                            {errors.password && (
+                                <p style={{ color: "red" }}>
+                                    {errors.password.message}
+                                </p>
+                            )}
+                            <label
+                                htmlFor="confirmPassword"
+                                className="sr-only"
+                            >
                                 Confirm Password
                             </label>
                             <input
