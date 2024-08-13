@@ -47,7 +47,7 @@ function App() {
                 <Route
                     path="/dashboard"
                     element={
-                        isLoggedIn ? <Dashboard /> : <Navigate to="/login" />
+                        isLoggedIn ? <Dashboard /> : <Navigate to="/signin" />
                     }
                 />
             </Routes>

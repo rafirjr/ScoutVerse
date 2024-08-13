@@ -181,7 +181,9 @@ const SignUp: React.FC = () => {
                                 <p style={{ color: "red" }}>
                                     {errors.password.message}
                                 </p>
-                            )}
+                            )}{" "}
+                        </div>
+                        <div>
                             <label
                                 htmlFor="confirmPassword"
                                 className="sr-only"
@@ -190,7 +192,7 @@ const SignUp: React.FC = () => {
                             </label>
                             <input
                                 id="confirmPassword"
-                                type={showPass ? "text" : "password"}
+                                type={showConfPass ? "text" : "password"}
                                 autoComplete="current-password"
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -199,7 +201,7 @@ const SignUp: React.FC = () => {
                             />
                             <button
                                 type="button"
-                                onClick={() => setShowPass(!showPass)}
+                                onClick={() => setShowConfPass(!showConfPass)}
                                 style={{
                                     position: "absolute",
                                     right: "10px",
@@ -212,11 +214,11 @@ const SignUp: React.FC = () => {
                                     margin: 0,
                                 }}
                             >
-                                {showPass ? "Hide" : "Show"}
+                                {showConfPass ? "Hide" : "Show"}
                             </button>
-                            {errors.password && (
+                            {errors.confirmPassword && (
                                 <p style={{ color: "red" }}>
-                                    {errors.password.message}
+                                    {errors.confirmPassword.message}
                                 </p>
                             )}
                         </div>
@@ -225,8 +227,9 @@ const SignUp: React.FC = () => {
                         <button
                             type="submit"
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            disabled={loading}
                         >
-                            Sign In
+                            Sign Up
                         </button>
                     </div>
                 </form>
@@ -234,7 +237,7 @@ const SignUp: React.FC = () => {
                 <div>
                     <button
                         type="button"
-                        onClick={() => navigate("/login")}
+                        onClick={() => navigate("/signin")}
                         className="mt-4 text-indigo-600 hover:text-indigo-900"
                     >
                         Already have an account? Sign In

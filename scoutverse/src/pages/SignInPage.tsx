@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/homenetmen-scouts-logo-01-1.png";
-import vahan from "../assets/Hmemlogo2019.png"
+import vahan from "../assets/Hmemlogo2019.png";
 import Signin from "../components/signin";
 
 const SignInPage: React.FC = () => {
-    
-
     return (
         <div className="min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
             <div className="container mx-auto h-10"></div>
@@ -39,6 +37,9 @@ const SignInPage: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <div className="container mx-auto h-10"></div>
+            <div className="container mx-auto h-10"></div>
+            <div className="container mx-auto h-10"></div>
         </div>
     );
 };

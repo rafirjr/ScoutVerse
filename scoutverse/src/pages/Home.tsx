@@ -6,7 +6,7 @@ const Home: React.FC = () => {
     const navigate = useNavigate();
 
     const handleLogInClick = () => {
-        navigate("/login");
+        navigate("/signin");
     };
 
     const handleSignUpClick = () => {
@@ -15,7 +15,6 @@ const Home: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
-            <div className="container mx-auto h-10"></div>
             <div className="container mx-auto h-10"></div>
             <div className="container mx-auto h-10"></div>
             <div className="container mx-auto">
@@ -31,7 +30,7 @@ const Home: React.FC = () => {
                                 type="button"
                                 className="text-lg font-medium py-4 px-8 rounded-lg border border-transparent bg-slate-400 text-white hover:bg-blue-500 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                             >
-                                Log In
+                                Sign In
                             </button>
                         </div>
                         <div className="w-full flex flex-column items-center justify-center p-8">
@@ -46,6 +45,9 @@ const Home: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <div className="container mx-auto h-10"></div>
+            <div className="container mx-auto h-10"></div>
+            <div className="container mx-auto h-10"></div>
         </div>
     );
 };

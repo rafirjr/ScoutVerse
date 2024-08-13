@@ -35,6 +35,9 @@ const SignUpPage: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <div className="container mx-auto h-10"></div>
+            <div className="container mx-auto h-10"></div>
+            <div className="container mx-auto h-10"></div>
         </div>
     );
 };

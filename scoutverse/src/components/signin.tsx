@@ -95,17 +95,18 @@ const SignIn: React.FC = () => {
                             <button
                                 type="button"
                                 onClick={() => setShowPass(!showPass)}
-                                style={{
-                                    position: "absolute",
-                                    right: "10px",
-                                    top: "50%",
-                                    transform: "translateY(-50%)",
-                                    background: "none",
-                                    border: "none",
-                                    cursor: "pointer",
-                                    padding: 0,
-                                    margin: 0,
-                                }}
+                                // style={{
+                                //     position: "absolute",
+                                //     right: "10px",
+                                //     top: "50%",
+                                //     transform: "translateY(-50%)",
+                                //     background: "none",
+                                //     border: "none",
+                                //     cursor: "pointer",
+                                //     padding: 0,
+                                //     margin: 0,
+                                // }}
+                                className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-600 hover:text-gray-900 focus:outline-none"
                             >
                                 {showPass ? "Hide" : "Show"}
                             </button>
@@ -120,6 +121,7 @@ const SignIn: React.FC = () => {
                         <button
                             type="submit"
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            disabled={loading}
                         >
                             Sign In
                         </button>
