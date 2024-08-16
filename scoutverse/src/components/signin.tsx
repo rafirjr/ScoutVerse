@@ -52,7 +52,7 @@ const SignIn: React.FC = () => {
     };
 
     return (
-        <div className="flex items-center justify-center rounded-xl bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-center rounded-xl mr-0 bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
                 <form
                     className="mt-8 space-y-6"
@@ -83,33 +83,31 @@ const SignIn: React.FC = () => {
                             <label htmlFor="password" className="sr-only">
                                 Password
                             </label>
-                            <input
-                                id="password"
-                                type={showPass ? "text" : "password"}
-                                autoComplete="current-password"
-                                required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Password"
-                                {...register("password")}
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowPass(!showPass)}
-                                // style={{
-                                //     position: "absolute",
-                                //     right: "10px",
-                                //     top: "50%",
-                                //     transform: "translateY(-50%)",
-                                //     background: "none",
-                                //     border: "none",
-                                //     cursor: "pointer",
-                                //     padding: 0,
-                                //     margin: 0,
-                                // }}
-                                className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-600 hover:text-gray-900 focus:outline-none"
-                            >
-                                {showPass ? "Hide" : "Show"}
-                            </button>
+                            <div className="flex items-center justify-between">
+                                <div className=" w-full">
+                                    <input
+                                        id="password"
+                                        type={showPass ? "text" : "password"}
+                                        autoComplete="current-password"
+                                        required
+                                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                        placeholder="Password"
+                                        {...register("password")}
+                                    />
+                                </div>
+                                <div className="align-right pr-1">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPass(!showPass)}
+                                        className="items-center pl-2 pr-0"
+                                        //className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-600 hover:text-gray-900 focus:outline-none"
+                                    >
+                                        <i className="fa-solid fa-eye"></i>
+                                        {/* {showPass ? "Hide" : "Show"} */}
+                                    </button>
+                                </div>
+                            </div>
+
                             {errors.password && (
                                 <p style={{ color: "red" }}>
                                     {errors.password.message}
@@ -138,6 +136,7 @@ const SignIn: React.FC = () => {
                     </button>
                 </div>
             </div>
+            {/* <div className=" pb-24 ">Hello</div> */}
         </div>
     );
 };
