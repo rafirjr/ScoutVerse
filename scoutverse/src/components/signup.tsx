@@ -118,7 +118,7 @@ const SignUp: React.FC = () => {
                                 type="text"
                                 autoComplete="last_name"
                                 required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Last Name"
                                 //{...register("lastname")}
                             />
@@ -137,7 +137,7 @@ const SignUp: React.FC = () => {
                                 type="text"
                                 autoComplete="username"
                                 required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Username"
                                 {...register("username")}
                             />
@@ -151,37 +151,34 @@ const SignUp: React.FC = () => {
                             <label htmlFor="password" className="sr-only">
                                 Password
                             </label>
-                            <input
-                                id="password"
-                                type={showPass ? "text" : "password"}
-                                autoComplete="current-password"
-                                required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Password"
-                                {...register("password")}
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowPass(!showPass)}
-                                style={{
-                                    position: "absolute",
-                                    right: "10px",
-                                    top: "50%",
-                                    transform: "translateY(-50%)",
-                                    background: "none",
-                                    border: "none",
-                                    cursor: "pointer",
-                                    padding: 0,
-                                    margin: 0,
-                                }}
-                            >
-                                {showPass ? "Hide" : "Show"}
-                            </button>
+                            <div className="flex relative items-center justify-between">
+                                <div className="w-full">
+                                    <input
+                                        id="password"
+                                        type={showPass ? "text" : "password"}
+                                        autoComplete="current-password"
+                                        required
+                                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                        placeholder="Password"
+                                        {...register("password")}
+                                    />
+                                </div>
+                                <div className="absolute align-right right-2 z-10">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPass(!showPass)}
+                                        className="items-center pl-2 pr-0"
+                                    >
+                                        <i className="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
                             {errors.password && (
                                 <p style={{ color: "red" }}>
                                     {errors.password.message}
                                 </p>
-                            )}{" "}
+                            )}
                         </div>
                         <div>
                             <label
@@ -190,32 +187,33 @@ const SignUp: React.FC = () => {
                             >
                                 Confirm Password
                             </label>
-                            <input
-                                id="confirmPassword"
-                                type={showConfPass ? "text" : "password"}
-                                autoComplete="current-password"
-                                required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Confirm Password"
-                                {...register("confirmPassword")}
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowConfPass(!showConfPass)}
-                                style={{
-                                    position: "absolute",
-                                    right: "10px",
-                                    top: "50%",
-                                    transform: "translateY(-50%)",
-                                    background: "none",
-                                    border: "none",
-                                    cursor: "pointer",
-                                    padding: 0,
-                                    margin: 0,
-                                }}
-                            >
-                                {showConfPass ? "Hide" : "Show"}
-                            </button>
+                            <div className="flex relative items-center justify-between">
+                                <div className="w-full">
+                                    <input
+                                        id="confirmPassword"
+                                        type={
+                                            showConfPass ? "text" : "password"
+                                        }
+                                        autoComplete="current-password"
+                                        required
+                                        className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                        placeholder="Confirm Password"
+                                        {...register("confirmPassword")}
+                                    />
+                                </div>
+                                <div className="absolute align-right right-2 z-10">
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setShowConfPass(!showConfPass)
+                                        }
+                                        className="items-center pl-2 pr-0"
+                                    >
+                                        <i className="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
                             {errors.confirmPassword && (
                                 <p style={{ color: "red" }}>
                                     {errors.confirmPassword.message}

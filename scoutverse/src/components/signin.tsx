@@ -96,10 +96,8 @@ const SignIn: React.FC = () => {
                                         type="button"
                                         onClick={() => setShowPass(!showPass)}
                                         className="items-center pl-2 pr-0"
-                                        //className="absolute inset-y-0 right-3 flex items-center text-sm text-gray-600 hover:text-gray-900 focus:outline-none"
                                     >
                                         <i className="fa-solid fa-eye"></i>
-                                        {/* {showPass ? "Hide" : "Show"} */}
                                     </button>
                                 </div>
                             </div>
