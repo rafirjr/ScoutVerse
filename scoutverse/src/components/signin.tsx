@@ -43,17 +43,13 @@ const SignIn: React.FC = () => {
 
     const navigate = useNavigate();
 
-    //   const setUserCookie = () => {
-    //     const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toUTCString();
-    //     document.cookie = `email=${encodeURIComponent(email)}; expires=${expires}; path=/;`;
-    //   };
     const handleLogin = ({ username, password }: InputValues) => {
         dispatch(login({ username, password }));
     };
 
     return (
         <div className="flex items-center justify-center rounded-xl mr-0 bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
+            <div className="max-w-md w-full space-y-8 justify-center">
                 <form
                     className="mt-8 space-y-6"
                     onSubmit={handleSubmit(handleLogin)}
@@ -83,7 +79,7 @@ const SignIn: React.FC = () => {
                             <label htmlFor="password" className="sr-only">
                                 Password
                             </label>
-                            <div className="flex items-center justify-between">
+                            <div className="flex relative items-center justify-between">
                                 <div className=" w-full">
                                     <input
                                         id="password"
@@ -95,7 +91,7 @@ const SignIn: React.FC = () => {
                                         {...register("password")}
                                     />
                                 </div>
-                                <div className="align-right pr-1">
+                                <div className="absolute align-right right-2 z-10">
                                     <button
                                         type="button"
                                         onClick={() => setShowPass(!showPass)}
@@ -126,7 +122,7 @@ const SignIn: React.FC = () => {
                     </div>
                 </form>
                 {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
-                <div>
+                <div className="text-center">
                     <button
                         type="button"
                         onClick={() => navigate("/signup")}
