@@ -45,6 +45,7 @@ const SignIn: React.FC = () => {
 
     const handleLogin = ({ username, password }: InputValues) => {
         dispatch(login({ username, password }));
+        navigate("/dashboard");
     };
 
     return (

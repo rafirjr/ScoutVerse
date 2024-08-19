@@ -77,6 +77,7 @@ const SignUp: React.FC = () => {
             return dispatch(setAuthError("Both passwords need to match."));
         }
         dispatch(signup({ username, password }));
+        navigate("/dashboard");
     };
 
     const navigate = useNavigate();
@@ -101,7 +102,7 @@ const SignUp: React.FC = () => {
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="First Name"
-                                //{...register("firstname")}
+                                {...register("firstname")}
                             />
                             {errors.firstname && (
                                 <p style={{ color: "red" }}>
@@ -120,7 +121,7 @@ const SignUp: React.FC = () => {
                                 required
                                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Last Name"
-                                //{...register("lastname")}
+                                {...register("lastname")}
                             />
                             {errors.lastname && (
                                 <p style={{ color: "red" }}>
