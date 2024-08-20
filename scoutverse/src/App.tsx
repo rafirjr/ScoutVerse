@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import {
     BrowserRouter as Router,
     Route,
@@ -12,12 +12,19 @@ import Dashboard from "./pages/Dashboard";
 import SignUpPage from "./pages/SignUpPage";
 import Home from "./pages/Home";
 import { useSelector } from "react-redux";
-import { selectAuthState } from "./redux/slices/authSlice";
+import { logout, selectAuthState } from "./redux/slices/authSlice";
 import storage from "./utils/localStorage";
+import { useAppDispatch } from "./redux/hooks";
 
 function App() {
-    const { user } = useSelector(selectAuthState);
+    const dispatch = useAppDispatch();
 
+    useEffect(() => {
+        storage.removeUser();
+        dispatch(logout());
+    }, [dispatch]);
+
+    const { user } = useSelector(selectAuthState);
     const isLoggedIn = storage.loadUser() || user;
 
     return (
