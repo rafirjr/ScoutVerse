@@ -6,7 +6,6 @@ import storage from "../../utils/localStorage";
 import { notify } from "./notificationSlice";
 import { getErrorMsg } from "../../utils/helperFuncs";
 
-
 interface InitialAuthState {
     user: UserState | null;
     loading: boolean;
@@ -16,11 +15,11 @@ interface InitialAuthState {
 const initialState: InitialAuthState = {
     user: null,
     loading: false,
-    error: null
+    error: null,
 };
 
 const authSlice = createSlice({
-    name: 'auth',
+    name: "auth",
     initialState,
     reducers: {
         setUser: (state, action: PayloadAction<UserState>) => {
@@ -29,7 +28,7 @@ const authSlice = createSlice({
             state.error = null;
         },
         removeUser: (state) => {
-            state.user = null
+            state.user = null;
         },
         setAuthLoading: (state) => {
             state.loading = true;
@@ -50,9 +49,8 @@ export const {
     removeUser,
     setAuthLoading,
     setAuthError,
-    clearAuthError
+    clearAuthError,
 } = authSlice.actions;
-
 
 export const login = (credentials: CredentialsPayload): AppThunk => {
     return async (dispatch) => {
@@ -60,17 +58,16 @@ export const login = (credentials: CredentialsPayload): AppThunk => {
             dispatch(setAuthLoading());
             const userData = await authService.login(credentials);
             dispatch(setUser(userData));
-            
+
             storage.saveUser(userData);
             authService.setToken(userData.token);
 
-            dispatch(notify(`Welcome back, ${userData.username}!`, 'success'));
-
+            dispatch(notify(`Welcome back, ${userData.username}!`, "success"));
         } catch (error: any) {
-            dispatch(setAuthError(getErrorMsg(error)))
+            dispatch(setAuthError(getErrorMsg(error)));
         }
-    }
-}
+    };
+};
 
 export const signup = (credentials: CredentialsPayload): AppThunk => {
     return async (dispatch) => {
@@ -82,21 +79,25 @@ export const signup = (credentials: CredentialsPayload): AppThunk => {
             storage.saveUser(userData);
             authService.setToken(userData.token);
 
-            dispatch(notify(`Hi, ${userData.username}! Welcome to ScoutVerse`, 'success'));
+            dispatch(
+                notify(
+                    `Hi, ${userData.username}! Welcome to ScoutVerse`,
+                    "success"
+                )
+            );
         } catch (error: any) {
-            dispatch(setAuthError(getErrorMsg(error)))
-            
+            dispatch(setAuthError(getErrorMsg(error)));
         }
-    }
-}
+    };
+};
 
 export const logout = (): AppThunk => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(removeUser());
         storage.removeUser();
-        dispatch(notify(`Logged out!`, 'success'));
-    }
-}
+        dispatch(notify(`Logged out!`, "success"));
+    };
+};
 
 export const autoLogin = (): AppThunk => {
     return (dispatch) => {
@@ -105,8 +106,8 @@ export const autoLogin = (): AppThunk => {
             dispatch(setUser(loggedUser));
             authService.setToken(loggedUser.token);
         }
-    }
-}
+    };
+};
 
 export const selectAuthState = (state: RootState) => state.auth;
 
