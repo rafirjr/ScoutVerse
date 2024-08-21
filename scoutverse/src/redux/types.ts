@@ -1,4 +1,6 @@
 export interface UserState {
+    //firstname: string;
+    //lastname: string;
     id: string;
     username: string;
     token: string;
@@ -17,5 +19,5 @@ export interface CredentialsPayload {
 
 export interface NotifPayload {
     message: string;
-    type: 'success' | 'error';
+    type: "success" | "error";
 }
