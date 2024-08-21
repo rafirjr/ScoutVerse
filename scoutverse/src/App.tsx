@@ -17,12 +17,22 @@ import storage from "./utils/localStorage";
 import { useAppDispatch } from "./redux/hooks";
 
 function App() {
+    window.addEventListener("phx:page-loading-stop", (event) => {
+        window.document.dispatchEvent(
+            new Event("DOMContentLoaded", {
+                bubbles: true,
+                cancelable: true,
+            })
+        );
+    });
+
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        storage.removeUser();
-        dispatch(logout());
-    }, [dispatch]);
+    // LOGS OUT USER ON REFRESH
+    // useEffect(() => {
+    //     storage.removeUser();
+    //     dispatch(logout());
+    // }, [dispatch]);
 
     const { user } = useSelector(selectAuthState);
     const isLoggedIn = storage.loadUser() || user;
