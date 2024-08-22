@@ -12,6 +12,11 @@ export interface User {
     //role: string;
 }
 
+export interface LoginPayload {
+    username: string;
+    password: string;
+}
+
 export interface CredentialsPayload {
     firstname: string;
     lastname: string;

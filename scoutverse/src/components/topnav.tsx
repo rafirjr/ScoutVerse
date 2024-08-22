@@ -1,6 +1,23 @@
 import React from "react";
+import logo from "../assets/homenetmen-scouts-logo-01-1.png";
+import { useSelector } from "react-redux";
+import { logout, selectAuthState } from "../redux/slices/authSlice";
+import { useAppDispatch } from "../redux/hooks";
+import { useNavigate } from "react-router-dom";
+import { Avatar } from "flowbite-react";
 
-const topnav: React.FC = () => {
+const Topnav: React.FC = () => {
+    const { user } = useSelector(selectAuthState);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const firstInitial = user?.firstname[0].toUpperCase();
+    const lastInitial = user?.lastname[0].toUpperCase();
+
+    const handleSignOut = () => {
+        dispatch(logout());
+        navigate("/signin");
+    };
+
     return (
         <>
             <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -29,17 +46,14 @@ const topnav: React.FC = () => {
                                     />
                                 </svg>
                             </button>
-                            <a
-                                href="https://flowbite.com"
-                                className="flex ms-2 md:me-24"
-                            >
+                            <a href="/" className="flex ms-2 md:me-24">
                                 <img
-                                    src="https://flowbite.com/docs/images/logo.svg"
-                                    className="h-8 me-3"
-                                    alt="FlowBite Logo"
+                                    src={logo}
+                                    className="h-12 me-3"
+                                    alt="Scouting logo"
                                 />
                                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                                    Flowbite
+                                    ScoutVerse
                                 </span>
                             </a>
                         </div>
@@ -55,10 +69,16 @@ const topnav: React.FC = () => {
                                         <span className="sr-only">
                                             Open user menu
                                         </span>
-                                        <img
-                                            className="w-8 h-8 rounded-full"
-                                            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                                            alt="user photo"
+                                        <Avatar
+                                            placeholderInitials={
+                                                (firstInitial
+                                                    ? firstInitial
+                                                    : "A") +
+                                                (lastInitial
+                                                    ? lastInitial
+                                                    : "B")
+                                            }
+                                            rounded
                                         />
                                     </button>
                                 </div>
@@ -71,13 +91,15 @@ const topnav: React.FC = () => {
                                             className="text-sm text-gray-900 dark:text-white"
                                             role="none"
                                         >
-                                            Neil Sims
+                                            {user?.firstname +
+                                                " " +
+                                                user?.lastname}
                                         </p>
                                         <p
                                             className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                                             role="none"
                                         >
-                                            neil.sims@flowbite.com
+                                            {user?.username}
                                         </p>
                                     </div>
                                     <ul className="py-1" role="none">
@@ -110,6 +132,7 @@ const topnav: React.FC = () => {
                                         </li>
                                         <li>
                                             <a
+                                                onClick={handleSignOut}
                                                 href="#"
                                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                                 role="menuitem"
@@ -128,4 +151,4 @@ const topnav: React.FC = () => {
     );
 };
 
-export default topnav;
+export default Topnav;

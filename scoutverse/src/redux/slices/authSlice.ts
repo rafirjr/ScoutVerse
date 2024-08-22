@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CredentialsPayload, UserState } from "../types";
+import { CredentialsPayload, UserState, LoginPayload } from "../types";
 import { AppThunk, RootState } from "../store";
 import authService from "../../services/auth";
 import storage from "../../utils/localStorage";
@@ -52,7 +52,7 @@ export const {
     clearAuthError,
 } = authSlice.actions;
 
-export const login = (credentials: CredentialsPayload): AppThunk => {
+export const login = (credentials: LoginPayload): AppThunk => {
     return async (dispatch) => {
         try {
             dispatch(setAuthLoading());
