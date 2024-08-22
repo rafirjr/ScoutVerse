@@ -1,6 +1,6 @@
 export interface UserState {
-    //firstname: string;
-    //lastname: string;
+    firstname: string;
+    lastname: string;
     id: string;
     username: string;
     token: string;
@@ -13,6 +13,8 @@ export interface User {
 }
 
 export interface CredentialsPayload {
+    firstname: string;
+    lastname: string;
     username: string;
     password: string;
 }

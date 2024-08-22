@@ -66,7 +66,7 @@ const SignUp: React.FC = () => {
         if (password !== confirmPassword) {
             return dispatch(setAuthError("Both passwords need to match."));
         }
-        dispatch(signup({ username, password }));
+        dispatch(signup({ firstname, lastname, username, password }));
         navigate("/dashboard");
     };
 
