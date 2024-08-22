@@ -1,9 +1,6 @@
 // src/components/SignIn.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import vahan from "../assets/Hmemlogo2019.png";
-import axios from "axios";
-import backendUrl from "../backendUrl";
 import { useAppDispatch } from "../redux/hooks";
 import { useSelector } from "react-redux";
 import {
@@ -14,13 +11,6 @@ import {
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-
-/**
- * SignIn component handles the sign in of the user. The email and password the user inputs is saved into "email" and "password"
- * setUserCookie() is the method that gives the user access to the web app based on their login user name
- * When the sign in button is pressed, signIn() is called from aws-auth which verifies the user email and password and if it is correct
- * the user gets a cookie and is sent to the HomePage using useNavigate from react-router-dom
- */
 
 interface InputValues {
     firstname: string;
