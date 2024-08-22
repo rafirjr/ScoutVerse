@@ -8,7 +8,7 @@ import { ILike } from "typeorm";
 import connectToDB from "../db";
 
 export const signUpUser = async (req: Request, res: Response) => {
-    const { username, password } = req.body;
+    const { firstname, lastname, username, password } = req.body;
     const { errors, valid } = registerValidator(username, password);
 
     if (!valid) {
@@ -32,7 +32,7 @@ export const signUpUser = async (req: Request, res: Response) => {
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
-    const user = User.create({ username, passwordHash });
+    const user = User.create({ firstname, lastname, username, passwordHash });
     await user.save();
 
     const token = jwt.sign(
@@ -45,6 +45,8 @@ export const signUpUser = async (req: Request, res: Response) => {
 
     return res.status(201).json({
         id: user.id,
+        firstname: user.firstname,
+        lastname: user.lastname,
         username: user.username,
         token,
     });

@@ -48,6 +48,16 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                         type: "varchar",
                         isNullable: false,
                     },
+                    {
+                        name: "firstname",
+                        isNullable: false,
+                        type: "varchar",
+                    },
+                    {
+                        name: "lastname",
+                        isNullable: false,
+                        type: "varchar",
+                    },
                 ],
             }),
             true // Execute synchronously

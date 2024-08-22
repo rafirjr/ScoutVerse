@@ -10,6 +10,12 @@ export class User extends Model {
     @Column()
     passwordHash: string;
 
+    @Column({ type: "varchar" })
+    firstname: string;
+
+    @Column({ type: "varchar" })
+    lastname: string;
+
     @BeforeInsert()
     generateId(): void {
         this.id = uuidv4();
