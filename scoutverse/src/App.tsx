@@ -11,6 +11,7 @@ import SignInPage from "./pages/SignInPage";
 import Dashboard from "./pages/Dashboard";
 import SignUpPage from "./pages/SignUpPage";
 import Home from "./pages/Home";
+import AddScoutPage from "./pages/AddScoutPage";
 import { useSelector } from "react-redux";
 import { logout, selectAuthState } from "./redux/slices/authSlice";
 import storage from "./utils/localStorage";
@@ -65,6 +66,16 @@ function App() {
                     path="/dashboard"
                     element={
                         isLoggedIn ? <Dashboard /> : <Navigate to="/signin" />
+                    }
+                />
+                <Route
+                    path="/addscout"
+                    element={
+                        isLoggedIn ? (
+                            <AddScoutPage />
+                        ) : (
+                            <Navigate to="/signin" />
+                        )
                     }
                 />
             </Routes>
