@@ -28,3 +28,22 @@ export interface NotifPayload {
     message: string;
     type: "success" | "error";
 }
+
+export interface ScoutPayload {
+    //Data for adding a new scout
+    first_name: string;
+    last_name: string;
+    khoump: string;
+    date_of_birth: Date;
+    street: string;
+    city: string;
+    state: string;
+    zip_code: string;
+    contact_number: string;
+    contact_email: string;
+    parent_name: string;
+    parent_email: string;
+    parent_number: string;
+    allergies: string;
+    size: string;
+}
