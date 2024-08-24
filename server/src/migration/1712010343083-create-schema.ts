@@ -172,7 +172,7 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                         name: "status",
                         isNullable: false,
                         type: "enum",
-                        enum: ["ACTIVE", "INACTIVE"],
+                        enum: ["ACTIVE", "INACTIVE", "PENDING"],
                     },
                     {
                         name: "createdAt",

@@ -113,7 +113,7 @@ export const addScout = async (req: Request, res: Response) => {
         parent_number: body.parent_number,
         allergies: body.allergies,
         size: body.size,
-        status: "ACTIVE",
+        status: "PENDING",
     });
 
     try {
