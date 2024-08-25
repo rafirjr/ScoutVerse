@@ -11,7 +11,9 @@ const Dashboard: React.FC = () => {
             <div className="container mx-auto h-10"></div>
             <div className="container mx-auto h-10"></div>
             <div className="container mx-auto h-10"></div>
-            <ToastNotification />
+            <div className="flex justify-center container mx-auto ">
+                <ToastNotification />
+            </div>
         </div>
     );
 };

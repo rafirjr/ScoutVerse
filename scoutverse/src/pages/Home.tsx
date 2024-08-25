@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "../assets/homenetmen-scouts-logo-01-1.png";
 import { useNavigate } from "react-router-dom";
+import ToastNotification from "../components/toastNotification";
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
@@ -44,6 +45,10 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="container mx-auto h-10"></div>
+            <div className="flex justify-center container mx-auto">
+                <ToastNotification />
             </div>
             <div className="container mx-auto h-10"></div>
             <div className="container mx-auto h-10"></div>
