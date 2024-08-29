@@ -15,7 +15,7 @@ const Topnav: React.FC = () => {
 
     const handleSignOut = () => {
         dispatch(logout());
-        navigate("/signin");
+        navigate("/");
     };
 
     return (
@@ -59,7 +59,7 @@ const Topnav: React.FC = () => {
                         </div>
                         <div className="flex items-center">
                             <div className="flex items-center ms-3">
-                                <div>
+                                <div className="pr-4">
                                     <button
                                         type="button"
                                         className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"

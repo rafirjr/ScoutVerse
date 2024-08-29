@@ -15,7 +15,7 @@ const AddScout: React.FC = () => {
             <div className="container mx-auto h-10"></div>
             <div className="container mx-auto h-10"></div>
 
-            <div className="border-t- bg-white rounded-xl mx-auto shadow-lg overflow-hidden w-1/2 h-fit">
+            <div className=" bg-white rounded-xl mx-auto shadow-lg overflow-hidden w-1/2 h-fit">
                 <form className="flex max-w-md flex-col gap-4 p-4" action="">
                     <div>
                         <div className="mb-2 block">
