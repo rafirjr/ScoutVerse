@@ -31,6 +31,7 @@ export interface NotifPayload {
 
 export interface ScoutPayload {
     //Data for adding a new scout
+    id: string;
     first_name: string;
     last_name: string;
     khoump: string;
@@ -47,3 +48,5 @@ export interface ScoutPayload {
     allergies: string;
     size: string;
 }
+
+export type ScoutSortValues = "gark" | "bashdon" | "astijan" | "dob";
