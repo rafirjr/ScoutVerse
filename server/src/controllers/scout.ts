@@ -23,9 +23,7 @@ const Khoump = [
 ];
 
 export const getAllScouts = async (_req: Request, res: Response) => {
-    const scouts = await Scout.find({
-        select: ["id", "first_name", "last_name", "khoump", "status"],
-    });
+    const scouts = await Scout.find();
     res.json(scouts);
 };
 
@@ -117,8 +115,8 @@ export const addScout = async (req: Request, res: Response) => {
     });
 
     try {
-        await newScout.save();
-        res.status(201).json(newScout);
+        const savedScout = await newScout.save();
+        res.status(201).json(savedScout);
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: "Could not add new scout." });
