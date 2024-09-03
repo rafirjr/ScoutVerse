@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ScoutPayload, ScoutSortValues } from "../types";
-import { AppThunk } from "../store";
+import { ScoutData, ScoutPayload, ScoutSortValues } from "../types";
+import { AppThunk, RootState } from "../store";
 import scoutService from "../../services/scout";
 import { getErrorMsg } from "../../utils/helperFuncs";
 import { notify } from "./notificationSlice";
@@ -44,7 +44,7 @@ const scoutSlice = createSlice({
         },
         updateScout: (
             state,
-            action: PayloadAction<{ data: ScoutPayload; scout_id: string }>
+            action: PayloadAction<{ data: ScoutData; scout_id: string }>
         ) => {
             state.allScouts = state.allScouts.map((s) =>
                 s.id === action.payload.scout_id
@@ -107,7 +107,7 @@ export const fetchAllScouts = (): AppThunk => {
 //fetchEachGroup
 //Add separate arrays to scoutState
 
-export const createNewScout = (scoutData: ScoutPayload): AppThunk => {
+export const createNewScout = (scoutData: ScoutData): AppThunk => {
     return async (dispatch) => {
         try {
             dispatch(setSubmitScoutsLoading());
@@ -131,3 +131,27 @@ export const removeScout = (scoutID: string): AppThunk => {
         }
     };
 };
+
+export const editScout = (scoutID: string, scoutData: ScoutData): AppThunk => {
+    return async (dispatch) => {
+        try {
+            dispatch(setSubmitScoutsLoading());
+            const updatedScout = await scoutService.updateScout(
+                scoutID,
+                scoutData
+            );
+            dispatch(updateScout({ data: scoutData, scout_id: scoutID }));
+            dispatch(notify("Scout has been updated!", "success"));
+        } catch (error: any) {
+            dispatch(setSubmitScoutsError(getErrorMsg(error)));
+        }
+    };
+};
+
+export const selectScoutState = (state: RootState) => state.scout;
+
+export const selectScoutByID = (state: RootState, scoutID: string) => {
+    return state.scout.allScouts.find((s) => s.id === scoutID);
+};
+
+export default scoutSlice.reducer;
