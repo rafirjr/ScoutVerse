@@ -1,7 +1,7 @@
 import axios from "axios";
 import backendUrl from "../backendUrl";
 import { setConfig } from "./auth";
-import { ScoutPayload } from "../redux/types";
+import { ScoutData } from "../redux/types";
 
 const baseUrl = `${backendUrl}/scouts`;
 
@@ -20,12 +20,12 @@ const getScout = async (scoutID: string) => {
     return response.data;
 };
 
-const addScout = async (scoutData: ScoutPayload) => {
+const addScout = async (scoutData: ScoutData) => {
     const response = await axios.post(baseUrl, scoutData, setConfig());
     return response.data;
 };
 
-const updateScout = async (scoutID: string, scoutData: ScoutPayload) => {
+const updateScout = async (scoutID: string, scoutData: ScoutData) => {
     const response = await axios.put(
         `${baseUrl}/${scoutID}`,
         scoutData,
