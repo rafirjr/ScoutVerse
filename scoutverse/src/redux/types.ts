@@ -29,13 +29,11 @@ export interface NotifPayload {
     type: "success" | "error";
 }
 
-export interface ScoutPayload {
-    //Data for adding a new scout
-    id: string;
-    first_name: string;
-    last_name: string;
+export interface ScoutData {
+    firstname: string;
+    lastname: string;
+    dob: Date;
     khoump: string;
-    date_of_birth: Date;
     street: string;
     city: string;
     state: string;
@@ -47,6 +45,30 @@ export interface ScoutPayload {
     parent_number: string;
     allergies: string;
     size: string;
+}
+
+export interface ScoutPayload {
+    // Scout State
+
+    id: string;
+    firstname: string;
+    lastname: string;
+    dob: Date;
+    khoump: string;
+    street: string;
+    city: string;
+    state: string;
+    zip_code: string;
+    contact_number: string;
+    contact_email: string;
+    parent_name: string;
+    parent_email: string;
+    parent_number: string;
+    allergies: string;
+    size: string;
+    status: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export type ScoutSortValues = "gark" | "bashdon" | "astijan" | "dob";
