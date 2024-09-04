@@ -30,9 +30,9 @@ export interface NotifPayload {
 }
 
 export interface ScoutData {
-    firstname: string;
-    lastname: string;
-    dob: Date;
+    first_name: string;
+    last_name: string;
+    date_of_birth: Date;
     khoump: string;
     street: string;
     city: string;
@@ -51,9 +51,9 @@ export interface ScoutPayload {
     // Scout State
 
     id: string;
-    firstname: string;
-    lastname: string;
-    dob: Date;
+    first_name: string;
+    last_name: string;
+    date_of_birth: Date;
     khoump: string;
     street: string;
     city: string;
