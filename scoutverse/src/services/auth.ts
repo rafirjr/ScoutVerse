@@ -12,11 +12,12 @@ let token: Token = null;
 
 const setToken = (newToken: string) => {
     token = newToken;
-}
+    localStorage.setItem("authToken", newToken);
+};
 
 export const setConfig = () => {
     return {
-        headers: { 'x-auth-token': token },
+        headers: { "x-auth-token": token },
     };
 };
 

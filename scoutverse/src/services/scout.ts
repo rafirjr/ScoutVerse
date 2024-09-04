@@ -21,7 +21,15 @@ const getScout = async (scoutID: string) => {
 };
 
 const addScout = async (scoutData: ScoutData) => {
-    const response = await axios.post(baseUrl, scoutData, setConfig());
+    console.log("scout.ts " + localStorage.getItem("authToken"));
+    const token = localStorage.getItem("authToken");
+    const response = await axios.post(baseUrl, scoutData, {
+        headers: {
+            "x-auth-token": token,
+            "Content-Type": "application/json",
+        },
+    });
+
     return response.data;
 };
 
