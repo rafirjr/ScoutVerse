@@ -3,8 +3,6 @@
 import React from "react";
 import Sidebar from "../components/sidebar";
 import Topnav from "../components/topnav";
-import { Label, TextInput, Select, Datepicker } from "flowbite-react";
-import { HiMail } from "react-icons/hi";
 import NewScoutForm from "../components/newScoutForm";
 
 const AddScout: React.FC = () => {

@@ -4,6 +4,7 @@ import { AppThunk, RootState } from "../store";
 import scoutService from "../../services/scout";
 import { getErrorMsg } from "../../utils/helperFuncs";
 import { notify } from "./notificationSlice";
+import { setConfig } from "../../services/auth";
 
 interface initialScoutState {
     allScouts: ScoutPayload[];
@@ -116,6 +117,7 @@ export const createNewScout = (scoutData: ScoutData): AppThunk => {
             dispatch(notify("New scout added!", "success"));
         } catch (error: any) {
             dispatch(setSubmitScoutsError(getErrorMsg(error)));
+            dispatch(notify("Error adding new scout", "error"));
         }
     };
 };
