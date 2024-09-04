@@ -88,6 +88,7 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                         name: "khoump",
                         type: "varchar",
                         enum: [
+                            "mogli",
                             "kylig",
                             "ardzvig",
                             "ari",

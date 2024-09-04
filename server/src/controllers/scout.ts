@@ -13,6 +13,7 @@ import { ILike } from "typeorm";
 // }
 
 const Khoump = [
+    "mogli",
     "kylig",
     "ardzvig",
     "ari",

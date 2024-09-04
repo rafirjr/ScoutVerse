@@ -12,6 +12,7 @@ import { Column, Entity } from "typeorm";
 // }
 
 const Khoump = [
+    "mogli",
     "kylig",
     "ardzvig",
     "ari",
@@ -81,6 +82,6 @@ export class Scout extends BaseModel {
     @Column({ type: "enum", enum: shirt_size })
     size: string;
 
-    @Column({ type: "enum", enum: ["ACTIVE", "INACTIVE"] })
+    @Column({ type: "enum", enum: ["ACTIVE", "INACTIVE", "PENDING"] })
     status: string;
 }
