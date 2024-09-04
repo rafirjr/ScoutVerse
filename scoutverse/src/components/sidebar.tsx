@@ -6,7 +6,6 @@ import { useAppDispatch } from "../redux/hooks";
 import { useSelector } from "react-redux";
 import { selectAuthState, logout } from "../redux/slices/authSlice";
 import storage from "../utils/localStorage";
-import { Sidebar } from "flowbite-react";
 
 const Sidenav: React.FC = () => {
     const navigate = useNavigate();
@@ -87,9 +86,9 @@ const Sidenav: React.FC = () => {
                                     >
                                         <path
                                             stroke="currentColor"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
                                             d="m1 1 4 4 4-4"
                                         />
                                     </svg>
