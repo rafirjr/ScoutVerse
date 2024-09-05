@@ -2,6 +2,7 @@ import React from "react";
 import Sidebar from "../components/sidebar";
 import Topnav from "../components/topnav";
 import ToastNotification from "../components/toastNotification";
+import RosterTable from "../components/rosterTable";
 
 const Dashboard: React.FC = () => {
     return (
@@ -14,6 +15,7 @@ const Dashboard: React.FC = () => {
             <div className="flex justify-center container mx-auto ">
                 <ToastNotification />
             </div>
+            <RosterTable />
         </div>
     );
 };
