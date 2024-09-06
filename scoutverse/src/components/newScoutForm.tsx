@@ -172,7 +172,7 @@ const NewScoutForm: React.FC = () => {
                             className="w-full"
                             {...register("khoump")}
                         >
-                            <option value="mogle">Mogli</option>
+                            <option value="mogli">Mogli</option>
                             <option value="kylig">Kylig</option>
                             <option value="ardzvig">Ardzvig</option>
                             <option value="ari">Ari</option>

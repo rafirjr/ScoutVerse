@@ -67,7 +67,7 @@ const SignUp: React.FC = () => {
             return dispatch(setAuthError("Both passwords need to match."));
         }
         dispatch(signup({ firstname, lastname, username, password }));
-        navigate("/dashboard");
+        navigate("/signin");
     };
 
     const navigate = useNavigate();

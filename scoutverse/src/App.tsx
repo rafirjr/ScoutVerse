@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { logout, selectAuthState } from "./redux/slices/authSlice";
 import storage from "./utils/localStorage";
 import { useAppDispatch } from "./redux/hooks";
+import MogliPage from "./pages/MogliPage";
 
 function App() {
     window.addEventListener("phx:page-loading-stop", (event) => {
@@ -76,6 +77,12 @@ function App() {
                         ) : (
                             <Navigate to="/signin" />
                         )
+                    }
+                />
+                <Route
+                    path="/mogli"
+                    element={
+                        isLoggedIn ? <MogliPage /> : <Navigate to="/signin" />
                     }
                 />
             </Routes>

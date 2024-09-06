@@ -5,6 +5,7 @@ import authService from "../../services/auth";
 import storage from "../../utils/localStorage";
 import { notify } from "./notificationSlice";
 import { getErrorMsg } from "../../utils/helperFuncs";
+import { fetchAllScouts } from "./scoutSlice";
 
 interface InitialAuthState {
     user: UserState | null;
@@ -61,6 +62,8 @@ export const login = (credentials: LoginPayload): AppThunk => {
 
             storage.saveUser(userData);
             authService.setToken(userData.token);
+
+            dispatch(fetchAllScouts());
 
             dispatch(notify(`Welcome back, ${userData.username}!`, "success"));
         } catch (error: any) {
