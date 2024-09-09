@@ -115,7 +115,7 @@ const Sidenav: React.FC = () => {
                                     </li>
                                     <li>
                                         <a
-                                            href="#"
+                                            href="/kylig"
                                             className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                         >
                                             Kylig
@@ -123,7 +123,7 @@ const Sidenav: React.FC = () => {
                                     </li>
                                     <li>
                                         <a
-                                            href="#"
+                                            href="/ardzvig"
                                             className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                         >
                                             Ardzvig
@@ -131,7 +131,7 @@ const Sidenav: React.FC = () => {
                                     </li>
                                     <li>
                                         <a
-                                            href="#"
+                                            href="/ari"
                                             className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                         >
                                             Ari
@@ -139,7 +139,7 @@ const Sidenav: React.FC = () => {
                                     </li>
                                     <li>
                                         <a
-                                            href="#"
+                                            href="/arenoush"
                                             className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                         >
                                             Arenoush
@@ -147,7 +147,7 @@ const Sidenav: React.FC = () => {
                                     </li>
                                     <li>
                                         <a
-                                            href="#"
+                                            href="/yerets"
                                             className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                         >
                                             Yerets
@@ -155,7 +155,7 @@ const Sidenav: React.FC = () => {
                                     </li>
                                     <li>
                                         <a
-                                            href="#"
+                                            href="/barmanouhi"
                                             className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                                         >
                                             Barmanouhi
