@@ -160,7 +160,7 @@ export const setCurrentScoutID = (scoutID: string): AppThunk => {
     return async (dispatch) => {
         try {
             dispatch(setCurrentScout(scoutID));
-            dispatch(notify("Current scout set.", "success"));
+            //dispatch(notify("Current scout set.", "success"));
         } catch (error) {
             dispatch(notify("Failed to set current scout ID.", "error"));
         }
