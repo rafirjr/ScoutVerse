@@ -4,6 +4,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { ScoutPayload } from "../redux/types";
 import { Button, Modal } from "flowbite-react";
 import {
+    editScout,
     selectScoutState,
     setCurrentScoutID,
 } from "../redux/slices/scoutSlice";
@@ -22,11 +23,49 @@ const PendingTable: React.FC<PendingTableProps> = ({ scouts }) => {
     const dispatch = useAppDispatch();
     const scoutState = useSelector(selectScoutState);
     const [openModal, setOpenModal] = useState(false);
+    const [activateModal, setActivateModal] = useState(false);
 
     const handleViewScout = (scoutID: string) => {
         dispatch(setCurrentScoutID(scoutID));
         setOpenModal(true);
         //navigate("/scoutinfo");
+    };
+
+    const handleActivateScout = () => {
+        const scout = scoutState.allScouts.find(
+            (scout) => scout.id === scoutState.currentScoutID
+        );
+        if (scout && scoutState.currentScoutID) {
+            dispatch(
+                editScout(scoutState.currentScoutID, {
+                    first_name: scout.first_name,
+                    last_name: scout.last_name,
+                    khoump: scout.khoump,
+                    date_of_birth: scout.date_of_birth,
+                    street: scout.street,
+                    city: scout.city,
+                    state: scout.state,
+                    zip_code: scout.zip_code,
+                    contact_number: scout.contact_number,
+                    contact_email: scout.contact_email,
+                    parent_name: scout.parent_name,
+                    parent_number: scout.parent_number,
+                    parent_email: scout.parent_email,
+                    allergies: scout.allergies,
+                    size: scout.size,
+                    status: "ACTIVE",
+                })
+            );
+        } else {
+            console.log("No scout found on pending table");
+        }
+
+        setActivateModal(false);
+    };
+
+    const handleActivateModal = (scoutID: string) => {
+        dispatch(setCurrentScoutID(scoutID));
+        setActivateModal(true);
     };
 
     return (
@@ -60,6 +99,9 @@ const PendingTable: React.FC<PendingTableProps> = ({ scouts }) => {
                                             pill
                                             size="sm"
                                             color="green"
+                                            onClick={() =>
+                                                handleActivateModal(scout.id)
+                                            }
                                         >
                                             <FaRegCheckCircle />
                                         </Button>
@@ -92,6 +134,27 @@ const PendingTable: React.FC<PendingTableProps> = ({ scouts }) => {
                     ) : (
                         <div>No Scout ID</div>
                     )}
+                </Modal>
+
+                <Modal
+                    show={activateModal}
+                    onClose={() => setActivateModal(false)}
+                >
+                    <Modal.Header>Activate Scout</Modal.Header>
+                    <Modal.Body>
+                        Make sure scout has completed new membership application
+                        on Homenetmen.net
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            pill
+                            size="xl"
+                            color="green"
+                            onClick={handleActivateScout}
+                        >
+                            Activate
+                        </Button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         </div>

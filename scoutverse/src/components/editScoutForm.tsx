@@ -31,6 +31,10 @@ const validationSchema = yup.object({
     parent_number: yup.string().required("Required"),
     allergies: yup.string().required("Required"),
     size: yup.string().required("Required"),
+    status: yup
+        .string()
+        .oneOf(["ACTIVE", "INACTIVE", "PENDING"], "Invalid status")
+        .required(),
 });
 
 const EditScoutForm: React.FC = () => {
@@ -39,6 +43,7 @@ const EditScoutForm: React.FC = () => {
     const currentScout = scoutState.allScouts.find(
         (scout) => scout.id === scoutState.currentScoutID
     );
+
     const navigate = useNavigate();
 
     const {
@@ -69,6 +74,9 @@ const EditScoutForm: React.FC = () => {
             setValue("parent_number", currentScout.parent_number);
             setValue("allergies", currentScout.allergies);
             setValue("size", currentScout.size);
+            const status: "ACTIVE" | "INACTIVE" | "PENDING" =
+                currentScout.status as "ACTIVE" | "INACTIVE" | "PENDING";
+            setValue("status", status);
         }
     }, [currentScout, setValue]);
 
@@ -88,6 +96,7 @@ const EditScoutForm: React.FC = () => {
         parent_number,
         allergies,
         size,
+        status,
     }: ScoutData) => {
         if (scoutState.currentScoutID) {
             dispatch(
@@ -107,6 +116,7 @@ const EditScoutForm: React.FC = () => {
                     parent_email: parent_email,
                     allergies: allergies,
                     size: size,
+                    status: status,
                 })
             );
             navigate(-1);

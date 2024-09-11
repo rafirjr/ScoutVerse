@@ -12,23 +12,6 @@ import { createNewScout } from "../redux/slices/scoutSlice";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-// interface InputValues {
-//     firstname: string;
-//     lastname: string;
-//     khoump: string;
-//     dob: Date;
-//     street: string;
-//     city: string;
-//     state: string;
-//     zip_code: string;
-//     contact_number: string;
-//     contact_email: string;
-//     parent_name: string;
-//     parent_email: string;
-//     allergies: string;
-//     size: string;
-// }
-
 const validationSchema = yup.object({
     first_name: yup.string().required("Required"),
     last_name: yup.string().required("Required"),
@@ -45,6 +28,10 @@ const validationSchema = yup.object({
     parent_number: yup.string().required("Required"),
     allergies: yup.string().required("Required"),
     size: yup.string().required("Required"),
+    status: yup
+        .string()
+        .oneOf(["ACTIVE", "INACTIVE", "PENDING"], "Invalid status")
+        .required(),
 });
 
 const NewScoutForm: React.FC = () => {
@@ -76,24 +63,8 @@ const NewScoutForm: React.FC = () => {
         parent_number,
         allergies,
         size,
+        status,
     }: ScoutData) => {
-        console.log({
-            first_name,
-            last_name,
-            khoump,
-            date_of_birth,
-            street,
-            city,
-            state,
-            zip_code,
-            contact_number,
-            contact_email,
-            parent_name,
-            parent_email,
-            parent_number,
-            allergies,
-            size,
-        });
         dispatch(
             createNewScout({
                 first_name: first_name,
@@ -111,6 +82,7 @@ const NewScoutForm: React.FC = () => {
                 parent_email: parent_email,
                 allergies: allergies,
                 size: size,
+                status: status,
             })
         );
         navigate("/dashboard");
@@ -420,6 +392,31 @@ const NewScoutForm: React.FC = () => {
                         {errors.size && (
                             <p style={{ color: "red" }}>
                                 {errors.size.message}
+                            </p>
+                        )}
+                    </div>
+                    <div>
+                        {/* <div className="mb-2 block">
+                            <Label htmlFor="status" value="Status" />
+                        </div> */}
+                        <input
+                            type="hidden"
+                            {...register("status")}
+                            value="PENDING"
+                        />
+                        {/* <TextInput
+                            id="status"
+                            type="text"
+                            disabled
+                            required
+                            placeholder="PENDING"
+                            value="PENDING"
+                            className="w-full"
+                            {...register("status")}
+                        /> */}
+                        {errors.status && (
+                            <p style={{ color: "red" }}>
+                                {errors.status.message}
                             </p>
                         )}
                     </div>
