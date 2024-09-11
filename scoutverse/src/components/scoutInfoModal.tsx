@@ -16,6 +16,10 @@ const ScoutInfoModal: React.FC<ScoutInfoModalProps> = ({
     const navigate = useNavigate();
     const currentScout = allScouts.find((scout) => scout.id === currentScoutID);
 
+    const handleEditScout = () => {
+        navigate("/editscout");
+    };
+
     return (
         <>
             <Modal.Header>
@@ -70,7 +74,12 @@ const ScoutInfoModal: React.FC<ScoutInfoModalProps> = ({
                 </div>
             </Modal.Body>
             <Modal.Footer className="justify-center">
-                <Button pill color="blue" size="xl">
+                <Button
+                    pill
+                    color="blue"
+                    size="xl"
+                    onClick={() => handleEditScout()}
+                >
                     <FaRegEdit />
                 </Button>
                 <Button pill color="red" size="xl">
