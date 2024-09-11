@@ -71,6 +71,10 @@ const ScoutInfoModal: React.FC<ScoutInfoModalProps> = ({
                         <h1 className="font-bold">T-Shirt Size</h1>
                         <p>{currentScout?.size}</p>
                     </div>
+                    <div>
+                        <h1 className="font-bold">Status</h1>
+                        <p>{currentScout?.status}</p>
+                    </div>
                 </div>
             </Modal.Body>
             <Modal.Footer className="justify-center">
