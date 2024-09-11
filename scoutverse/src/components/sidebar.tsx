@@ -6,12 +6,14 @@ import { useAppDispatch } from "../redux/hooks";
 import { useSelector } from "react-redux";
 import { selectAuthState, logout } from "../redux/slices/authSlice";
 import storage from "../utils/localStorage";
+import { selectScoutState } from "../redux/slices/scoutSlice";
 
 const Sidenav: React.FC = () => {
     const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
     const { user } = useSelector(selectAuthState);
+    const scoutState = useSelector(selectScoutState);
     const isLoggedIn = storage.loadUser() || user;
 
     useEffect(() => {
@@ -24,6 +26,11 @@ const Sidenav: React.FC = () => {
             );
         }
     }, [isLoggedIn]);
+
+    const pendingScouts = scoutState.allScouts.filter(
+        (scout) => scout.status === "PENDING"
+    );
+    const pendingSize = pendingScouts.length;
 
     const handleSignOut = () => {
         dispatch(logout());
@@ -166,7 +173,7 @@ const Sidenav: React.FC = () => {
 
                             <li>
                                 <a
-                                    href="#"
+                                    href="/pendingScouts"
                                     className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
                                 >
                                     <svg
@@ -182,7 +189,7 @@ const Sidenav: React.FC = () => {
                                         Pending
                                     </span>
                                     <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-                                        3
+                                        {pendingSize}
                                     </span>
                                 </a>
                             </li>

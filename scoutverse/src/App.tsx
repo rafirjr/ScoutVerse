@@ -23,6 +23,7 @@ import AriPage from "./pages/AriPage";
 import ArenoushPage from "./pages/ArenoushPage";
 import YeretsPage from "./pages/YeretsPage";
 import BarmanouhiPage from "./pages/BarmanouhiPage";
+import PendingScoutsPage from "./pages/PendingScoutsPage";
 
 function App() {
     window.addEventListener("phx:page-loading-stop", (event) => {
@@ -140,6 +141,16 @@ function App() {
                     element={
                         isLoggedIn ? (
                             <EditScoutPage />
+                        ) : (
+                            <Navigate to="/signin" />
+                        )
+                    }
+                />
+                <Route
+                    path="/pendingScouts"
+                    element={
+                        isLoggedIn ? (
+                            <PendingScoutsPage />
                         ) : (
                             <Navigate to="/signin" />
                         )
