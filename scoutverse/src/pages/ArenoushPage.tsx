@@ -11,7 +11,7 @@ const ArenoushPage: React.FC = () => {
     const scoutList = scoutState.allScouts;
 
     const arenoushList = scoutList.filter(
-        (scout) => scout.khoump === "arenoush"
+        (scout) => scout.khoump === "arenoush" && scout.status === "ACTIVE"
     );
 
     return (

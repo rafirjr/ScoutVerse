@@ -10,7 +10,9 @@ const YeretsPage: React.FC = () => {
     const scoutState = useSelector(selectScoutState);
     const scoutList = scoutState.allScouts;
 
-    const yeretsList = scoutList.filter((scout) => scout.khoump === "yerets");
+    const yeretsList = scoutList.filter(
+        (scout) => scout.khoump === "yerets" && scout.status === "ACTIVE"
+    );
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">

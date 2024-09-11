@@ -10,7 +10,9 @@ const ArdzvigPage: React.FC = () => {
     const scoutState = useSelector(selectScoutState);
     const scoutList = scoutState.allScouts;
 
-    const ardzvigList = scoutList.filter((scout) => scout.khoump === "ardzvig");
+    const ardzvigList = scoutList.filter(
+        (scout) => scout.khoump === "ardzvig" && scout.status === "ACTIVE"
+    );
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">

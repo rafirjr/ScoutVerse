@@ -10,7 +10,9 @@ const MogliPage: React.FC = () => {
     const scoutState = useSelector(selectScoutState);
     const scoutList = scoutState.allScouts;
 
-    const mogliList = scoutList.filter((scout) => scout.khoump === "mogli");
+    const mogliList = scoutList.filter(
+        (scout) => scout.khoump === "mogli" && scout.status === "ACTIVE"
+    );
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">

@@ -10,7 +10,9 @@ const KyligPage: React.FC = () => {
     const scoutState = useSelector(selectScoutState);
     const scoutList = scoutState.allScouts;
 
-    const kyligList = scoutList.filter((scout) => scout.khoump === "kylig");
+    const kyligList = scoutList.filter(
+        (scout) => scout.khoump === "kylig" && scout.status === "ACTIVE"
+    );
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">

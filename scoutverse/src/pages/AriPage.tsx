@@ -10,7 +10,9 @@ const AriPage: React.FC = () => {
     const scoutState = useSelector(selectScoutState);
     const scoutList = scoutState.allScouts;
 
-    const ariList = scoutList.filter((scout) => scout.khoump === "ari");
+    const ariList = scoutList.filter(
+        (scout) => scout.khoump === "ari" && scout.status === "ACTIVE"
+    );
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
