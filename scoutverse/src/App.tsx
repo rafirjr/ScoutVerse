@@ -16,7 +16,7 @@ import { logout, selectAuthState } from "./redux/slices/authSlice";
 import storage from "./utils/localStorage";
 import { useAppDispatch } from "./redux/hooks";
 import MogliPage from "./pages/MogliPage";
-import ScoutInfoPage from "./pages/ScoutInfoPage";
+import EditScoutPage from "./pages/EditScoutPage";
 import KyligPage from "./pages/KyligPage";
 import ArdzvigPage from "./pages/ArdzvigPage";
 import AriPage from "./pages/AriPage";
@@ -136,10 +136,10 @@ function App() {
                     }
                 />
                 <Route
-                    path="/scoutinfo"
+                    path="/editscout"
                     element={
                         isLoggedIn ? (
-                            <ScoutInfoPage />
+                            <EditScoutPage />
                         ) : (
                             <Navigate to="/signin" />
                         )
