@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import ScoutInfoModal from "./scoutInfoModal";
 import { useSelector } from "react-redux";
+import { IoEye, IoEyeOutline } from "react-icons/io5";
 
 interface RosterTableProps {
     scouts: ScoutPayload[];
@@ -67,7 +68,7 @@ const RosterTable: React.FC<RosterTableProps> = ({ scouts }) => {
                                     color="blue"
                                     onClick={() => handleViewScout(scout.id)}
                                 >
-                                    View
+                                    <IoEyeOutline size={20} />
                                 </Button>
                             </Table.Row>
                         ))}
