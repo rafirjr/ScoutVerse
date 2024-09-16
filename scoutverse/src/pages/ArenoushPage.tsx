@@ -6,9 +6,13 @@ import RosterTable from "../components/rosterTable";
 import { useSelector } from "react-redux";
 import { selectScoutState } from "../redux/slices/scoutSlice";
 
-const Dashboard: React.FC = () => {
+const ArenoushPage: React.FC = () => {
     const scoutState = useSelector(selectScoutState);
     const scoutList = scoutState.allScouts;
+
+    const arenoushList = scoutList.filter(
+        (scout) => scout.khoump === "arenoush" && scout.status === "ACTIVE"
+    );
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
@@ -21,9 +25,9 @@ const Dashboard: React.FC = () => {
                 <ToastNotification />
             </div>
             <div className="container mx-auto h-10"></div>
-            <RosterTable scouts={scoutList} />
+            <RosterTable scouts={arenoushList} />
         </div>
     );
 };
 
-export default Dashboard;
+export default ArenoushPage;

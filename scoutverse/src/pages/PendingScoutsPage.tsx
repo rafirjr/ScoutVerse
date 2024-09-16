@@ -5,10 +5,13 @@ import ToastNotification from "../components/toastNotification";
 import RosterTable from "../components/rosterTable";
 import { useSelector } from "react-redux";
 import { selectScoutState } from "../redux/slices/scoutSlice";
+import PendingTable from "../components/pendingTable";
 
-const Dashboard: React.FC = () => {
+const PendingScoutsPage: React.FC = () => {
     const scoutState = useSelector(selectScoutState);
     const scoutList = scoutState.allScouts;
+
+    const pendingList = scoutList.filter((scout) => scout.status === "PENDING");
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
@@ -21,9 +24,9 @@ const Dashboard: React.FC = () => {
                 <ToastNotification />
             </div>
             <div className="container mx-auto h-10"></div>
-            <RosterTable scouts={scoutList} />
+            <PendingTable scouts={pendingList} />
         </div>
     );
 };
 
-export default Dashboard;
+export default PendingScoutsPage;

@@ -8,9 +8,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { ScoutData } from "../redux/types";
-import { createNewScout } from "../redux/slices/scoutSlice";
+import { editScout, selectScoutState } from "../redux/slices/scoutSlice";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from "react-redux";
+import { notify } from "../redux/slices/notificationSlice";
+import { useEffect } from "react";
 
 const validationSchema = yup.object({
     first_name: yup.string().required("Required"),
@@ -34,8 +37,15 @@ const validationSchema = yup.object({
         .required(),
 });
 
-const NewScoutForm: React.FC = () => {
+const EditScoutForm: React.FC = () => {
     const dispatch = useAppDispatch();
+    const scoutState = useSelector(selectScoutState);
+    const currentScout = scoutState.allScouts.find(
+        (scout) => scout.id === scoutState.currentScoutID
+    );
+
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
@@ -47,7 +57,30 @@ const NewScoutForm: React.FC = () => {
         resolver: yupResolver(validationSchema),
     });
 
-    const handleSubmitNewScout = ({
+    useEffect(() => {
+        if (currentScout) {
+            setValue("first_name", currentScout.first_name);
+            setValue("last_name", currentScout.last_name);
+            setValue("khoump", currentScout.khoump);
+            setValue("date_of_birth", currentScout.date_of_birth);
+            setValue("street", currentScout.street);
+            setValue("city", currentScout.city);
+            setValue("state", currentScout.state);
+            setValue("zip_code", currentScout.zip_code);
+            setValue("contact_number", currentScout.contact_number);
+            setValue("contact_email", currentScout.contact_email);
+            setValue("parent_name", currentScout.parent_name);
+            setValue("parent_email", currentScout.parent_email);
+            setValue("parent_number", currentScout.parent_number);
+            setValue("allergies", currentScout.allergies);
+            setValue("size", currentScout.size);
+            const status: "ACTIVE" | "INACTIVE" | "PENDING" =
+                currentScout.status as "ACTIVE" | "INACTIVE" | "PENDING";
+            setValue("status", status);
+        }
+    }, [currentScout, setValue]);
+
+    const handleSubmitEditScout = ({
         first_name,
         last_name,
         khoump,
@@ -65,37 +98,43 @@ const NewScoutForm: React.FC = () => {
         size,
         status,
     }: ScoutData) => {
-        dispatch(
-            createNewScout({
-                first_name: first_name,
-                last_name: last_name,
-                khoump: khoump,
-                date_of_birth: date_of_birth,
-                street: street,
-                city: city,
-                state: state,
-                zip_code: zip_code,
-                contact_number: contact_number,
-                contact_email: contact_email,
-                parent_name: parent_name,
-                parent_number: parent_number,
-                parent_email: parent_email,
-                allergies: allergies,
-                size: size,
-                status: status,
-            })
-        );
-        navigate("/dashboard");
+        if (scoutState.currentScoutID) {
+            dispatch(
+                editScout(scoutState.currentScoutID, {
+                    first_name: first_name,
+                    last_name: last_name,
+                    khoump: khoump,
+                    date_of_birth: date_of_birth,
+                    street: street,
+                    city: city,
+                    state: state,
+                    zip_code: zip_code,
+                    contact_number: contact_number,
+                    contact_email: contact_email,
+                    parent_name: parent_name,
+                    parent_number: parent_number,
+                    parent_email: parent_email,
+                    allergies: allergies,
+                    size: size,
+                    status: status,
+                })
+            );
+            navigate(-1);
+        } else {
+            dispatch(notify("No scout ID set in state", "error"));
+        }
     };
 
-    const navigate = useNavigate();
+    const handleCancel = () => {
+        navigate(-1);
+    };
 
     return (
         <div className="flex">
             <div className="flex-col lg:w-1/4"></div>
             <div className=" bg-white rounded-xl mx-auto shadow-lg overflow-hidden w-5/6 h-fit md:w-3/4 lg:mr-20">
                 <form
-                    onSubmit={handleSubmit(handleSubmitNewScout)}
+                    onSubmit={handleSubmit(handleSubmitEditScout)}
                     className="flex max-w flex-col gap-4 p-4"
                     action=""
                 >
@@ -104,9 +143,8 @@ const NewScoutForm: React.FC = () => {
                             <Label htmlFor="firstname" value="First Name" />
                         </div>
                         <TextInput
-                            id="firstname"
+                            id="first_name"
                             type="text"
-                            placeholder=""
                             required
                             className="w-full"
                             {...register("first_name")}
@@ -119,12 +157,11 @@ const NewScoutForm: React.FC = () => {
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="lasttname" value="Last Name" />
+                            <Label htmlFor="last_name" value="Last Name" />
                         </div>
                         <TextInput
-                            id="lastname"
+                            id="last_name"
                             type="text"
-                            placeholder=""
                             required
                             className="w-full"
                             {...register("last_name")}
@@ -140,6 +177,7 @@ const NewScoutForm: React.FC = () => {
                             <Label htmlFor="Khoump" value="Khoump" />
                         </div>
                         <Select
+                            id="khoump"
                             required
                             className="w-full"
                             {...register("khoump")}
@@ -170,7 +208,7 @@ const NewScoutForm: React.FC = () => {
                             }
                             dateFormat="yyyy-MM-dd"
                             className="w-full rounded-md"
-                            placeholderText="YYYY-MM-DD"
+                            id="date_of_birth"
                         />
                         {errors.date_of_birth && (
                             <p style={{ color: "red" }}>
@@ -185,7 +223,6 @@ const NewScoutForm: React.FC = () => {
                         <TextInput
                             id="street"
                             type="text"
-                            placeholder=""
                             required
                             className="w-full"
                             {...register("street")}
@@ -203,7 +240,6 @@ const NewScoutForm: React.FC = () => {
                         <TextInput
                             id="city"
                             type="text"
-                            placeholder=""
                             required
                             className="w-full"
                             {...register("city")}
@@ -244,7 +280,7 @@ const NewScoutForm: React.FC = () => {
                             <Label htmlFor="zipcode" value="Zip Code" />
                         </div>
                         <TextInput
-                            id="zipcode"
+                            id="zip_code"
                             type="text"
                             required
                             className="w-full"
@@ -266,7 +302,6 @@ const NewScoutForm: React.FC = () => {
                         <TextInput
                             id="contact_number"
                             type="text"
-                            placeholder=""
                             className="w-full"
                             {...register("contact_number")}
                         />
@@ -278,12 +313,14 @@ const NewScoutForm: React.FC = () => {
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="contactemail" value="Scout Email" />
+                            <Label
+                                htmlFor="contact_email"
+                                value="Scout Email"
+                            />
                         </div>
                         <TextInput
                             id="contact_email"
                             type="email"
-                            placeholder=""
                             rightIcon={HiMail}
                             className="w-full"
                             {...register("contact_email")}
@@ -296,12 +333,11 @@ const NewScoutForm: React.FC = () => {
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="parentname" value="Parent Name" />
+                            <Label htmlFor="parent_name" value="Parent Name" />
                         </div>
                         <TextInput
-                            id="parentname"
+                            id="parent_name"
                             type="text"
-                            placeholder=""
                             required
                             className="w-full"
                             {...register("parent_name")}
@@ -314,12 +350,14 @@ const NewScoutForm: React.FC = () => {
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="parentemail" value="Parent Email" />
+                            <Label
+                                htmlFor="parent_email"
+                                value="Parent Email"
+                            />
                         </div>
                         <TextInput
-                            id="parentemail"
+                            id="parent_email"
                             type="email"
-                            placeholder=""
                             required
                             rightIcon={HiMail}
                             className="w-full"
@@ -334,14 +372,13 @@ const NewScoutForm: React.FC = () => {
                     <div>
                         <div className="mb-2 block">
                             <Label
-                                htmlFor="parentnumber"
+                                htmlFor="parent_number"
                                 value="Parent Phone Number"
                             />
                         </div>
                         <TextInput
-                            id="parentnumber"
+                            id="parent_number"
                             type="text"
-                            placeholder=""
                             required
                             className="w-full"
                             {...register("parent_number")}
@@ -359,9 +396,7 @@ const NewScoutForm: React.FC = () => {
                         <TextInput
                             id="allergies"
                             type="text"
-                            placeholder=""
                             required
-                            defaultValue={"N/A"}
                             className="w-full"
                             {...register("allergies")}
                         />
@@ -395,41 +430,22 @@ const NewScoutForm: React.FC = () => {
                             </p>
                         )}
                     </div>
-                    <div>
-                        {/* <div className="mb-2 block">
-                            <Label htmlFor="status" value="Status" />
-                        </div> */}
-                        <input
-                            type="hidden"
-                            {...register("status")}
-                            value="PENDING"
-                        />
-                        {/* <TextInput
-                            id="status"
-                            type="text"
-                            disabled
-                            required
-                            placeholder="PENDING"
-                            value="PENDING"
-                            className="w-full"
-                            {...register("status")}
-                        /> */}
-                        {errors.status && (
-                            <p style={{ color: "red" }}>
-                                {errors.status.message}
-                            </p>
-                        )}
-                    </div>
-                    <div className="mx-auto">
-                        <Button
-                            className="bg-gradient-to-r from-cyan-500 to-blue-500 "
-                            size="md"
-                            pill
-                            type="submit"
-                        >
-                            Submit
-                            <HiOutlineArrowRight className="h-6 w-6" />
-                        </Button>
+                    <div className="flex mx-auto">
+                        <div className="flex-col p-3">
+                            <Button color="blue" size="md" pill type="submit">
+                                Save
+                            </Button>
+                        </div>
+                        <div className="flex-col p-3">
+                            <Button
+                                color="gray"
+                                size="md"
+                                pill
+                                onClick={handleCancel}
+                            >
+                                Cancel
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -437,4 +453,4 @@ const NewScoutForm: React.FC = () => {
     );
 };
 
-export default NewScoutForm;
+export default EditScoutForm;

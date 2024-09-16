@@ -45,6 +45,7 @@ export interface ScoutData {
     parent_number: string;
     allergies: string;
     size: string;
+    status: "ACTIVE" | "INACTIVE" | "PENDING";
 }
 
 export interface ScoutPayload {

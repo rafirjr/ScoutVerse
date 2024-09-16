@@ -4,6 +4,7 @@ import { setConfig } from "./auth";
 import { ScoutData } from "../redux/types";
 
 const baseUrl = `${backendUrl}/scouts`;
+const token = localStorage.getItem("authToken");
 
 const getAllScouts = async () => {
     const response = await axios.get(baseUrl, setConfig());
@@ -21,8 +22,7 @@ const getScout = async (scoutID: string) => {
 };
 
 const addScout = async (scoutData: ScoutData) => {
-    console.log("scout.ts " + localStorage.getItem("authToken"));
-    const token = localStorage.getItem("authToken");
+    //const token = localStorage.getItem("authToken");
     const response = await axios.post(baseUrl, scoutData, {
         headers: {
             "x-auth-token": token,
@@ -34,11 +34,12 @@ const addScout = async (scoutData: ScoutData) => {
 };
 
 const updateScout = async (scoutID: string, scoutData: ScoutData) => {
-    const response = await axios.put(
-        `${baseUrl}/${scoutID}`,
-        scoutData,
-        setConfig()
-    );
+    const response = await axios.put(`${baseUrl}/${scoutID}`, scoutData, {
+        headers: {
+            "x-auth-token": token,
+            "Content-Type": "application/json",
+        },
+    });
     return response.data;
 };
 

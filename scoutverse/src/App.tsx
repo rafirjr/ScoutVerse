@@ -4,7 +4,6 @@ import {
     BrowserRouter as Router,
     Route,
     Routes,
-    useNavigate,
     Navigate,
 } from "react-router-dom";
 import SignInPage from "./pages/SignInPage";
@@ -16,6 +15,15 @@ import { useSelector } from "react-redux";
 import { logout, selectAuthState } from "./redux/slices/authSlice";
 import storage from "./utils/localStorage";
 import { useAppDispatch } from "./redux/hooks";
+import MogliPage from "./pages/MogliPage";
+import EditScoutPage from "./pages/EditScoutPage";
+import KyligPage from "./pages/KyligPage";
+import ArdzvigPage from "./pages/ArdzvigPage";
+import AriPage from "./pages/AriPage";
+import ArenoushPage from "./pages/ArenoushPage";
+import YeretsPage from "./pages/YeretsPage";
+import BarmanouhiPage from "./pages/BarmanouhiPage";
+import PendingScoutsPage from "./pages/PendingScoutsPage";
 
 function App() {
     window.addEventListener("phx:page-loading-stop", (event) => {
@@ -73,6 +81,76 @@ function App() {
                     element={
                         isLoggedIn ? (
                             <AddScoutPage />
+                        ) : (
+                            <Navigate to="/signin" />
+                        )
+                    }
+                />
+                <Route
+                    path="/mogli"
+                    element={
+                        isLoggedIn ? <MogliPage /> : <Navigate to="/signin" />
+                    }
+                />
+                <Route
+                    path="/kylig"
+                    element={
+                        isLoggedIn ? <KyligPage /> : <Navigate to="/signin" />
+                    }
+                />
+                <Route
+                    path="/ardzvig"
+                    element={
+                        isLoggedIn ? <ArdzvigPage /> : <Navigate to="/signin" />
+                    }
+                />
+                <Route
+                    path="/ari"
+                    element={
+                        isLoggedIn ? <AriPage /> : <Navigate to="/signin" />
+                    }
+                />
+                <Route
+                    path="/arenoush"
+                    element={
+                        isLoggedIn ? (
+                            <ArenoushPage />
+                        ) : (
+                            <Navigate to="/signin" />
+                        )
+                    }
+                />
+                <Route
+                    path="/yerets"
+                    element={
+                        isLoggedIn ? <YeretsPage /> : <Navigate to="/signin" />
+                    }
+                />
+                <Route
+                    path="/barmanouhi"
+                    element={
+                        isLoggedIn ? (
+                            <BarmanouhiPage />
+                        ) : (
+                            <Navigate to="/signin" />
+                        )
+                    }
+                />
+                <Route
+                    path="/editscout"
+                    element={
+                        isLoggedIn ? (
+                            <EditScoutPage />
+                        ) : (
+                            <Navigate to="/signin" />
+                        )
+                    }
+                />
+                <Route
+                    path="/pendingScouts"
+                    element={
+                        isLoggedIn ? (
+                            <PendingScoutsPage />
                         ) : (
                             <Navigate to="/signin" />
                         )

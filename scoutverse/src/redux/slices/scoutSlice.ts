@@ -13,6 +13,7 @@ interface initialScoutState {
     fetchError: string | null;
     isLoading: boolean;
     submitError: string | null;
+    currentScoutID: string | null;
 }
 
 const initialState: initialScoutState = {
@@ -22,6 +23,7 @@ const initialState: initialScoutState = {
     fetchError: null,
     isLoading: false,
     submitError: null,
+    currentScoutID: null,
 };
 
 const scoutSlice = createSlice({
@@ -54,6 +56,9 @@ const scoutSlice = createSlice({
             );
             state.isLoading = false;
             state.submitError = null;
+        },
+        setCurrentScout: (state, action: PayloadAction<string>) => {
+            state.currentScoutID = action.payload;
         },
         setFetchScoutsLoading: (state) => {
             state.fetchStatus = "loading";
@@ -91,6 +96,7 @@ export const {
     setSubmitScoutsError,
     clearError,
     sortScoutsBy,
+    setCurrentScout,
 } = scoutSlice.actions;
 
 export const fetchAllScouts = (): AppThunk => {
@@ -146,6 +152,17 @@ export const editScout = (scoutID: string, scoutData: ScoutData): AppThunk => {
             dispatch(notify("Scout has been updated!", "success"));
         } catch (error: any) {
             dispatch(setSubmitScoutsError(getErrorMsg(error)));
+        }
+    };
+};
+
+export const setCurrentScoutID = (scoutID: string): AppThunk => {
+    return async (dispatch) => {
+        try {
+            dispatch(setCurrentScout(scoutID));
+            //dispatch(notify("Current scout set.", "success"));
+        } catch (error) {
+            dispatch(notify("Failed to set current scout ID.", "error"));
         }
     };
 };
