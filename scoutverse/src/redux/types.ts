@@ -73,3 +73,17 @@ export interface ScoutPayload {
 }
 
 export type ScoutSortValues = "gark" | "bashdon" | "astijan" | "dob";
+
+export interface AttendanceData {
+    present_date: string;
+    daraz: boolean;
+    paid: boolean;
+}
+
+export interface AttendancePayload {
+    attendance_id: string;
+    scout_id: string;
+    present_date: string;
+    daraz: boolean;
+    paid: boolean;
+}

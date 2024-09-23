@@ -297,7 +297,7 @@ export class CreateSchema1712010343083 implements MigrationInterface {
                     },
                     {
                         name: "present_date",
-                        type: "date",
+                        type: "varchar",
                     },
                     {
                         name: "daraz",

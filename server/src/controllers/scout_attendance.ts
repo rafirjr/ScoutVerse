@@ -3,7 +3,7 @@ import { Scout } from "../entity/Scout";
 import { Attendance } from "../entity/Attendance";
 
 // Get all attendance records from a specific scout
-export const getAttendance = async (req: Request, res: Response) => {
+export const getScoutAttendance = async (req: Request, res: Response) => {
     const scoutID = req.params.scoutID;
 
     const scout = await Scout.findOne({
@@ -19,6 +19,19 @@ export const getAttendance = async (req: Request, res: Response) => {
     const attendance = await Attendance.find({
         where: {
             scout_id: scoutID,
+        },
+    });
+
+    res.status(201).json(attendance);
+};
+
+// Get all attendance records from a specific date
+export const getDateAtendance = async (req: Request, res: Response) => {
+    const date = req.params.date;
+
+    const attendance = await Attendance.find({
+        where: {
+            present_date: date,
         },
     });
 

@@ -19,8 +19,8 @@ export class Attendance extends BaseEntity {
     @Column()
     scout_id: string;
 
-    @Column({ type: "date" })
-    present_date: Date;
+    @Column({ type: "varchar" })
+    present_date: string;
 
     @Column({ type: "boolean" })
     daraz: boolean;
