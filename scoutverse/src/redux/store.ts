@@ -2,6 +2,7 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
 import notificationReducer from "./slices/notificationSlice";
 import scoutReducer from "./slices/scoutSlice";
+import attendanceReducer from "./slices/attendanceSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
@@ -16,6 +17,7 @@ const reducer = combineReducers({
     auth: authReducer,
     notification: notificationReducer,
     scout: scoutReducer,
+    attendance: attendanceReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

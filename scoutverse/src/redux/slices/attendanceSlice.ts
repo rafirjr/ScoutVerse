@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AttendancePayload, ScoutPayload, AttendanceData } from "../types";
-import { AppThunk } from "../store";
+import { AppThunk, RootState } from "../store";
 import attendanceService from "../../services/attendance";
 import { getErrorMsg } from "../../utils/helperFuncs";
+import { notify } from "./notificationSlice";
 
 interface initialAttendanceState {
     currentAttendanceID: string | null;
@@ -117,12 +118,19 @@ export const fetchScoutAttendance = (scoutID: string): AppThunk => {
     return async (dispatch) => {
         try {
             dispatch(setAttendanceLoading());
+            dispatch(setCurrentScoutID(scoutID));
             const dateList = await attendanceService.getScoutAttendance(
                 scoutID
             );
             dispatch(setAttendanceScoutList(dateList));
         } catch (error: any) {
             dispatch(setFetchAttendanceError(getErrorMsg(error)));
+            dispatch(
+                notify(
+                    "Failed to fetch all dates of attendance from scout",
+                    "error"
+                )
+            );
         }
     };
 };
@@ -130,6 +138,94 @@ export const fetchScoutAttendance = (scoutID: string): AppThunk => {
 export const fetchDateAttendance = (date: string): AppThunk => {
     return async (dispatch) => {
         try {
-        } catch (error) {}
+            dispatch(setAttendanceLoading());
+            dispatch(setCurrentDate(date));
+            const scoutList = await attendanceService.getScoutAttendance(date);
+            dispatch(setAttendanceDateList(scoutList));
+        } catch (error: any) {
+            dispatch(setFetchAttendanceError(getErrorMsg(error)));
+            dispatch(
+                notify(
+                    `Failed to fetch all attendance records from ${date}`,
+                    "error"
+                )
+            );
+        }
     };
 };
+
+export const logAttend = (scoutID: string, data: AttendanceData): AppThunk => {
+    return async (dispatch) => {
+        try {
+            dispatch(setAttendanceLoading());
+            const newLog = await attendanceService.logAttendance(scoutID, data);
+            dispatch(addAttendanceRecord(newLog));
+            dispatch(
+                notify("Successfully added new attendance record", "success")
+            );
+        } catch (error: any) {
+            dispatch(setSubmitAttendanceError(getErrorMsg(error)));
+            dispatch(notify("Failed to add new attendance record", "error"));
+        }
+    };
+};
+
+export const setCurrAttendanceID = (attendanceID: string): AppThunk => {
+    return async (dispatch) => {
+        try {
+            dispatch(setCurrentAttendanceID(attendanceID));
+        } catch (error) {
+            dispatch(notify("Failed to set current attendance ID.", "error"));
+        }
+    };
+};
+
+export const updateAttend = (
+    scoutID: string,
+    attendanceID: string,
+    data: AttendanceData
+): AppThunk => {
+    return async (dispatch) => {
+        try {
+            dispatch(setAttendanceLoading());
+            const updatedLog = await attendanceService.updateAttendance(
+                scoutID,
+                attendanceID,
+                data
+            );
+            dispatch(updateAttendanceRecord(updatedLog));
+            dispatch(
+                notify("Successfully updated attendance record", "success")
+            );
+        } catch (error: any) {
+            dispatch(setSubmitAttendanceError(getErrorMsg(error)));
+            dispatch(notify("Failed to update attendance record", "error"));
+        }
+    };
+};
+
+export const deleteAttend = (
+    scoutID: string,
+    attendanceID: string
+): AppThunk => {
+    return async (dispatch) => {
+        try {
+            dispatch(setAttendanceLoading());
+            const deletedLog = await attendanceService.deleteAttendance(
+                scoutID,
+                attendanceID
+            );
+            dispatch(deleteAttendanceRecord(attendanceID));
+            dispatch(
+                notify("Successfully deleted attendance record", "success")
+            );
+        } catch (error: any) {
+            dispatch(setSubmitAttendanceError(getErrorMsg(error)));
+            dispatch(notify("Failed to delete attendance record", "error"));
+        }
+    };
+};
+
+export const selectAttendanceState = (state: RootState) => state.attendance;
+
+export default attendanceSlice.reducer;
