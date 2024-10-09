@@ -13,6 +13,8 @@ import { useSelector } from "react-redux";
 import { IoEyeOutline } from "react-icons/io5";
 import { selectAttendanceState } from "../redux/slices/attendanceSlice";
 import { HiOutlineArrowRight } from "react-icons/hi";
+import attendanceService from "../services/attendance";
+import { notify } from "../redux/slices/notificationSlice";
 
 const AttendanceTable: React.FC = () => {
     const navigate = useNavigate();
@@ -21,13 +23,10 @@ const AttendanceTable: React.FC = () => {
     const scoutState = useSelector(selectScoutState);
     const [openModal, setOpenModal] = useState(false);
     const [scoutKhoump, setScoutKhoump] = useState("kylig");
-    const [present, setPresent] = useState(false);
-    const [paid, setPaid] = useState(false);
-    const [fullDaraz, setFullDaraz] = useState(false);
     const logAttendanceMap: { [scoutID: string]: AttendanceData } = {};
     const currentDate = new Date();
     const year = currentDate.getFullYear();
-    const month = currentDate.getMonth();
+    const month = currentDate.getMonth() + 1;
     const day = currentDate.getDate();
 
     const scoutList = scoutState.allScouts;
@@ -59,17 +58,17 @@ const AttendanceTable: React.FC = () => {
     };
 
     const handlePresentCheck = (scoutID: string) => {
-        setPresent(!present);
-        if (present) {
+        if (logAttendanceMap[scoutID].present_date === "") {
+            console.log("set the date");
             logAttendanceMap[scoutID].present_date = `${year}-${month}-${day}`;
+            console.log(logAttendanceMap[scoutID].present_date);
         } else {
             logAttendanceMap[scoutID].present_date = "";
         }
     };
 
     const handlePaidCheck = (scoutID: string) => {
-        setPaid(!paid);
-        if (paid) {
+        if (logAttendanceMap[scoutID].paid === false) {
             logAttendanceMap[scoutID].paid = true;
         } else {
             logAttendanceMap[scoutID].paid = false;
@@ -77,8 +76,7 @@ const AttendanceTable: React.FC = () => {
     };
 
     const handleFullDarazCheck = (scoutID: string) => {
-        setFullDaraz(!fullDaraz);
-        if (fullDaraz) {
+        if (logAttendanceMap[scoutID].daraz === false) {
             logAttendanceMap[scoutID].daraz = true;
         } else {
             logAttendanceMap[scoutID].daraz = false;
@@ -86,9 +84,17 @@ const AttendanceTable: React.FC = () => {
     };
 
     const handleSubmitAttendance = () => {
-        console.log("Submitted");
-
+        for (const scoutID in logAttendanceMap) {
+            if (
+                logAttendanceMap.hasOwnProperty(scoutID) &&
+                logAttendanceMap[scoutID].present_date !== ""
+            ) {
+                const attendance = logAttendanceMap[scoutID];
+                attendanceService.logAttendance(scoutID, attendance);
+            }
+        }
         navigate("/dashboard");
+        console.log("Submitted");
     };
 
     return (

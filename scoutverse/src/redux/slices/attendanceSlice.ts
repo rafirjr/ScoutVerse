@@ -159,10 +159,10 @@ export const logAttend = (scoutID: string, data: AttendanceData): AppThunk => {
         try {
             dispatch(setAttendanceLoading());
             const newLog = await attendanceService.logAttendance(scoutID, data);
-            dispatch(addAttendanceRecord(newLog));
             dispatch(
                 notify("Successfully added new attendance record", "success")
             );
+            dispatch(addAttendanceRecord(newLog));
         } catch (error: any) {
             dispatch(setSubmitAttendanceError(getErrorMsg(error)));
             dispatch(notify("Failed to add new attendance record", "error"));
