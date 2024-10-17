@@ -35,8 +35,7 @@ const RosterTable: React.FC<RosterTableProps> = ({ scouts }) => {
                 <div className="overflow-x-auto w-full">
                     <Table striped>
                         <Table.Head>
-                            <Table.HeadCell>First Name</Table.HeadCell>
-                            <Table.HeadCell>Last Name</Table.HeadCell>
+                            <Table.HeadCell>Name</Table.HeadCell>
                             <Table.HeadCell>Khoump</Table.HeadCell>
                             <Table.HeadCell>DOB</Table.HeadCell>
                             {/* <Table.HeadCell>Address</Table.HeadCell> */}
@@ -48,8 +47,11 @@ const RosterTable: React.FC<RosterTableProps> = ({ scouts }) => {
                         <Table.Body className="divide-y">
                             {scouts.map((scout, index) => (
                                 <Table.Row key={index}>
-                                    <Table.Cell>{scout.first_name}</Table.Cell>
-                                    <Table.Cell>{scout.last_name}</Table.Cell>
+                                    <Table.Cell>
+                                        {scout.first_name +
+                                            " " +
+                                            scout.last_name}
+                                    </Table.Cell>
                                     <Table.Cell>{scout.khoump}</Table.Cell>
                                     <Table.Cell>
                                         {scout.date_of_birth
@@ -66,17 +68,19 @@ const RosterTable: React.FC<RosterTableProps> = ({ scouts }) => {
                                     <Table.Cell>
                                         {scout.parent_number}
                                     </Table.Cell>
-                                    <Button
-                                        className="mx-auto mt-2"
-                                        pill
-                                        size="sm"
-                                        color="blue"
-                                        onClick={() =>
-                                            handleViewScout(scout.id)
-                                        }
-                                    >
-                                        <IoEyeOutline size={20} />
-                                    </Button>
+                                    <Table.Cell>
+                                        <Button
+                                            className="mx-auto mt-2"
+                                            pill
+                                            size="sm"
+                                            color="blue"
+                                            onClick={() =>
+                                                handleViewScout(scout.id)
+                                            }
+                                        >
+                                            <IoEyeOutline size={20} />
+                                        </Button>
+                                    </Table.Cell>
                                 </Table.Row>
                             ))}
                         </Table.Body>

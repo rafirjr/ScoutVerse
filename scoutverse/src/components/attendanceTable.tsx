@@ -59,9 +59,9 @@ const AttendanceTable: React.FC = () => {
 
     const handlePresentCheck = (scoutID: string) => {
         if (logAttendanceMap[scoutID].present_date === "") {
-            console.log("set the date");
+            //console.log("set the date");
             logAttendanceMap[scoutID].present_date = `${year}-${month}-${day}`;
-            console.log(logAttendanceMap[scoutID].present_date);
+            //console.log(logAttendanceMap[scoutID].present_date);
         } else {
             logAttendanceMap[scoutID].present_date = "";
         }
@@ -94,7 +94,7 @@ const AttendanceTable: React.FC = () => {
             }
         }
         navigate("/dashboard");
-        console.log("Submitted");
+        //console.log("Submitted");
     };
 
     return (
@@ -124,8 +124,7 @@ const AttendanceTable: React.FC = () => {
                 <div className="overflow-x-auto w-full">
                     <Table striped>
                         <Table.Head>
-                            <Table.HeadCell>First Name</Table.HeadCell>
-                            <Table.HeadCell>Last Name</Table.HeadCell>
+                            <Table.HeadCell>Name</Table.HeadCell>
                             <Table.HeadCell>Present</Table.HeadCell>
                             <Table.HeadCell>Paid</Table.HeadCell>
                             <Table.HeadCell>Full Daraz</Table.HeadCell>
@@ -134,8 +133,11 @@ const AttendanceTable: React.FC = () => {
                         <Table.Body className="divide-y">
                             {khoumpList.map((scout, index) => (
                                 <Table.Row key={index}>
-                                    <Table.Cell>{scout.first_name}</Table.Cell>
-                                    <Table.Cell>{scout.last_name}</Table.Cell>
+                                    <Table.Cell>
+                                        {scout.first_name +
+                                            " " +
+                                            scout.last_name}
+                                    </Table.Cell>
                                     <Table.Cell>
                                         <Checkbox
                                             onChange={() =>
