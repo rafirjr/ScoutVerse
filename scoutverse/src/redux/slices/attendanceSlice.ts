@@ -162,6 +162,7 @@ export const logAttend = (scoutID: string, data: AttendanceData): AppThunk => {
             dispatch(
                 notify("Successfully added new attendance record", "success")
             );
+            console.log("There should be a notify here");
             dispatch(addAttendanceRecord(newLog));
         } catch (error: any) {
             dispatch(setSubmitAttendanceError(getErrorMsg(error)));

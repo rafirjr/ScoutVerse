@@ -25,6 +25,7 @@ import YeretsPage from "./pages/YeretsPage";
 import BarmanouhiPage from "./pages/BarmanouhiPage";
 import PendingScoutsPage from "./pages/PendingScoutsPage";
 import AttendancePage from "./pages/AttendancePage";
+import AttendanceRecordsPage from "./pages/AttendanceRecordsPage";
 
 function App() {
     window.addEventListener("phx:page-loading-stop", (event) => {
@@ -162,6 +163,16 @@ function App() {
                     element={
                         isLoggedIn ? (
                             <AttendancePage />
+                        ) : (
+                            <Navigate to="/signin" />
+                        )
+                    }
+                />
+                <Route
+                    path="/attendance/records"
+                    element={
+                        isLoggedIn ? (
+                            <AttendanceRecordsPage />
                         ) : (
                             <Navigate to="/signin" />
                         )

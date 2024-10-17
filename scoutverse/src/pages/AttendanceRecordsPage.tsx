@@ -4,9 +4,9 @@ import Topnav from "../components/topnav";
 import ToastNotification from "../components/toastNotification";
 import { useSelector } from "react-redux";
 import { selectAttendanceState } from "../redux/slices/attendanceSlice";
-import AttendanceTable from "../components/attendanceTable";
+import AttendanceRecordsTable from "../components/attendanceRecordsTable";
 
-const AttendancePage: React.FC = () => {
+const AttendanceRecordsPage: React.FC = () => {
     const attendanceState = useSelector(selectAttendanceState);
 
     return (
@@ -20,9 +20,9 @@ const AttendancePage: React.FC = () => {
                 <ToastNotification />
             </div>
             <div className="container mx-auto h-10"></div>
-            <AttendanceTable />
+            <AttendanceRecordsTable />
         </div>
     );
 };
 
-export default AttendancePage;
+export default AttendanceRecordsPage;
