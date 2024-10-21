@@ -11,10 +11,11 @@ import { useState } from "react";
 import ScoutInfoModal from "./scoutInfoModal";
 import { useSelector } from "react-redux";
 import { IoEyeOutline } from "react-icons/io5";
-import { selectAttendanceState } from "../redux/slices/attendanceSlice";
+import {
+    logAttend,
+    selectAttendanceState,
+} from "../redux/slices/attendanceSlice";
 import { HiOutlineArrowRight } from "react-icons/hi";
-import attendanceService from "../services/attendance";
-import { notify } from "../redux/slices/notificationSlice";
 
 const AttendanceTable: React.FC = () => {
     const navigate = useNavigate();
@@ -90,7 +91,7 @@ const AttendanceTable: React.FC = () => {
                 logAttendanceMap[scoutID].present_date !== ""
             ) {
                 const attendance = logAttendanceMap[scoutID];
-                attendanceService.logAttendance(scoutID, attendance);
+                dispatch(logAttend(scoutID, attendance));
             }
         }
         navigate("/dashboard");
