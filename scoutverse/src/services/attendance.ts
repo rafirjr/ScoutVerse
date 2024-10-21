@@ -7,8 +7,13 @@ const baseUrl = `${backendUrl}/attendance`;
 const token = localStorage.getItem("authToken");
 
 // Get all attendance logs from a specific date
-const getDateAtendance = async (date: string) => {
-    const response = await axios.get(`${baseUrl}/${date}`, setConfig());
+const getDateAttendance = async (date: string) => {
+    const response = await axios.get(`${baseUrl}/${date}`, {
+        headers: {
+            "x-auth-token": token,
+            "Content-Type": "application/json",
+        },
+    });
     return response.data;
 };
 
@@ -60,7 +65,7 @@ const deleteAttendance = async (scoutID: string, attendnanceID: string) => {
 };
 
 const attendanceService = {
-    getDateAtendance,
+    getDateAttendance,
     updateAttendance,
     deleteAttendance,
     logAttendance,

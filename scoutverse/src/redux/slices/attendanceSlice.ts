@@ -9,9 +9,9 @@ interface initialAttendanceState {
     currentAttendanceID: string | null;
     currentScoutID: string | null;
     currentDate: string | null;
-    attendanceScoutList: AttendancePayload[]; // List of scout IDs for a specific date
+    attendanceScoutList: string[]; // List of scout IDs for a specific date
     attendanceDateList: string[]; // List of dates from a specific scout
-    allAttendance: AttendancePayload[]; // All attendance records
+    allAttendance: AttendancePayload[]; // All attendance records from specific date
     isLoading: boolean;
     fetchError: string | null;
     submitError: string | null;
@@ -33,10 +33,14 @@ const attendanceSlice = createSlice({
     name: "attendance",
     initialState,
     reducers: {
-        setAttendanceScoutList: (
+        setCurrentDateAttendanceRecords: (
             state,
             action: PayloadAction<AttendancePayload[]>
         ) => {
+            state.allAttendance = action.payload;
+            state.fetchError = null;
+        },
+        setAttendanceScoutList: (state, action: PayloadAction<string[]>) => {
             state.attendanceScoutList = action.payload;
             state.fetchError = null;
         },
@@ -112,8 +116,35 @@ export const {
     setCurrentAttendanceID,
     setCurrentScoutID,
     setCurrentDate,
+    setCurrentDateAttendanceRecords,
 } = attendanceSlice.actions;
 
+// Fetches specific attendance record
+export const fetchAttendanceRecord = (
+    scoutID: string,
+    date: string
+): AppThunk => {
+    return async (dispatch) => {
+        try {
+            dispatch(setAttendanceLoading());
+            dispatch(setCurrentScoutID(scoutID));
+            const attendanceList = await attendanceService.getScoutAttendance(
+                scoutID
+            );
+            const attendanceRecord = attendanceList.find(
+                (record: AttendancePayload) => record.present_date === date
+            );
+            dispatch(setCurrentDateAttendanceRecords(attendanceRecord));
+        } catch (error: any) {
+            dispatch(setFetchAttendanceError(getErrorMsg(error)));
+            dispatch(
+                notify("Failed to fetch specific attendance record.", "error")
+            );
+        }
+    };
+};
+
+// Fetches all dates from a specific scout
 export const fetchScoutAttendance = (scoutID: string): AppThunk => {
     return async (dispatch) => {
         try {
@@ -122,7 +153,7 @@ export const fetchScoutAttendance = (scoutID: string): AppThunk => {
             const dateList = await attendanceService.getScoutAttendance(
                 scoutID
             );
-            dispatch(setAttendanceScoutList(dateList));
+            dispatch(setAttendanceDateList(dateList));
         } catch (error: any) {
             dispatch(setFetchAttendanceError(getErrorMsg(error)));
             dispatch(
@@ -140,8 +171,14 @@ export const fetchDateAttendance = (date: string): AppThunk => {
         try {
             dispatch(setAttendanceLoading());
             dispatch(setCurrentDate(date));
-            const scoutList = await attendanceService.getScoutAttendance(date);
-            dispatch(setAttendanceDateList(scoutList));
+            const attendanceList = await attendanceService.getDateAttendance(
+                date
+            );
+            dispatch(setCurrentDateAttendanceRecords(attendanceList));
+            const listIDs: string[] = attendanceList.map(
+                (attendance: AttendancePayload) => attendance.scout_id
+            );
+            dispatch(setAttendanceScoutList(listIDs));
         } catch (error: any) {
             dispatch(setFetchAttendanceError(getErrorMsg(error)));
             dispatch(
