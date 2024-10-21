@@ -2,7 +2,7 @@ import express from "express";
 import middleware from "../middleware";
 import {
     deleteAttendance,
-    getDateAtendance,
+    getDateAttendance,
     getScoutAttendance,
     logAttendance,
     updateAttendance,
@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 const { auth } = middleware;
 
-router.get("/:date", auth, getDateAtendance);
+router.get("/:date", auth, getDateAttendance);
 router.get("/:scoutID", auth, getScoutAttendance);
 router.post("/:scoutID", auth, logAttendance);
 router.delete("/:scoutID/attendance/:attendanceID", auth, deleteAttendance);

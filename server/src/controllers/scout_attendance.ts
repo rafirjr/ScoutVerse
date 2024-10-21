@@ -26,7 +26,7 @@ export const getScoutAttendance = async (req: Request, res: Response) => {
 };
 
 // Get all attendance records from a specific date
-export const getDateAtendance = async (req: Request, res: Response) => {
+export const getDateAttendance = async (req: Request, res: Response) => {
     const date = req.params.date;
 
     const attendance = await Attendance.find({
