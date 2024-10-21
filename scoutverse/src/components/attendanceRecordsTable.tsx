@@ -11,9 +11,12 @@ import { useState } from "react";
 import ScoutInfoModal from "./scoutInfoModal";
 import { useSelector } from "react-redux";
 import { IoEyeOutline } from "react-icons/io5";
-import { selectAttendanceState } from "../redux/slices/attendanceSlice";
+import {
+    fetchDateAttendance,
+    selectAttendanceState,
+} from "../redux/slices/attendanceSlice";
 import { HiOutlineArrowRight } from "react-icons/hi";
-import attendanceService from "../services/attendance";
+import ReactDatePicker from "react-datepicker";
 
 const AttendanceRecordsTable: React.FC = () => {
     const navigate = useNavigate();
@@ -21,28 +24,13 @@ const AttendanceRecordsTable: React.FC = () => {
     const attendanceState = useSelector(selectAttendanceState);
     const scoutState = useSelector(selectScoutState);
     const [openModal, setOpenModal] = useState(false);
-    const [scoutKhoump, setScoutKhoump] = useState("kylig");
-    const logAttendanceMap: { [scoutID: string]: AttendanceData } = {};
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1;
-    const day = currentDate.getDate();
+    const [filterBy, setFilterBy] = useState(true);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-    const scoutList = scoutState.allScouts;
-    const khoumpList = scoutList.filter(
-        (scout) => scout.khoump === scoutKhoump && scout.status === "ACTIVE"
+    const allScouts = scoutState.allScouts;
+    const scoutList = allScouts.filter((scout) =>
+        attendanceState.attendanceScoutList.includes(scout.id)
     );
-
-    for (const scout of khoumpList) {
-        const id = scout.id;
-        const data = {
-            present_date: "",
-            daraz: false,
-            paid: false,
-        };
-
-        logAttendanceMap[id] = data;
-    }
 
     const handleViewScout = (scoutID: string) => {
         dispatch(setCurrentScoutID(scoutID));
@@ -50,50 +38,23 @@ const AttendanceRecordsTable: React.FC = () => {
         //navigate("/scoutinfo");
     };
 
-    const handleSelectKhoump = (
-        event: React.ChangeEvent<HTMLSelectElement>
-    ) => {
-        setScoutKhoump(event.target.value);
-    };
-
-    const handlePresentCheck = (scoutID: string) => {
-        if (logAttendanceMap[scoutID].present_date === "") {
-            //console.log("set the date");
-            logAttendanceMap[scoutID].present_date = `${year}-${month}-${day}`;
-            //console.log(logAttendanceMap[scoutID].present_date);
+    const handleFilterBy = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        if (event.target.value === "date") {
+            setFilterBy(true);
         } else {
-            logAttendanceMap[scoutID].present_date = "";
+            setFilterBy(false);
         }
     };
 
-    const handlePaidCheck = (scoutID: string) => {
-        if (logAttendanceMap[scoutID].paid === false) {
-            logAttendanceMap[scoutID].paid = true;
-        } else {
-            logAttendanceMap[scoutID].paid = false;
+    const handleDateChange = (date: Date | null) => {
+        setSelectedDate(date);
+        if (date) {
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const dateToString = `${year}-${month}-${day}`;
+            dispatch(fetchDateAttendance(dateToString));
         }
-    };
-
-    const handleFullDarazCheck = (scoutID: string) => {
-        if (logAttendanceMap[scoutID].daraz === false) {
-            logAttendanceMap[scoutID].daraz = true;
-        } else {
-            logAttendanceMap[scoutID].daraz = false;
-        }
-    };
-
-    const handleSubmitAttendance = () => {
-        for (const scoutID in logAttendanceMap) {
-            if (
-                logAttendanceMap.hasOwnProperty(scoutID) &&
-                logAttendanceMap[scoutID].present_date !== ""
-            ) {
-                const attendance = logAttendanceMap[scoutID];
-                attendanceService.logAttendance(scoutID, attendance);
-            }
-        }
-        navigate("/dashboard");
-        //console.log("Submitted");
     };
 
     return (
@@ -107,55 +68,90 @@ const AttendanceRecordsTable: React.FC = () => {
                     <Select
                         required
                         className="w-full"
-                        onChange={handleSelectKhoump}
-                        value={scoutKhoump}
+                        onChange={handleFilterBy}
                     >
-                        <option value="mogli">Mogli</option>
-                        <option value="kylig">Kylig</option>
-                        <option value="ardzvig">Ardzvig</option>
-                        <option value="ari">Ari</option>
-                        <option value="arenoush">Arenoush</option>
-                        <option value="yerets">Yerets</option>
-                        <option value="barmanouhi">Barmanouhi</option>
-                        <option value="kerakouyn">Kerakouyn</option>
+                        <option value="date">Date</option>
+                        <option value="scout">Scout</option>
                     </Select>
                 </div>
-                <div className="overflow-x-auto w-full">
+                <div className="overflow-x-auto w-full gap-4 p-4">
+                    {filterBy ? (
+                        <>
+                            <div>
+                                <ReactDatePicker
+                                    selected={selectedDate}
+                                    onSelect={(date) => handleDateChange(date)}
+                                    dateFormat="yyyy-MM-dd"
+                                    className="w-full rounded-md"
+                                    placeholderText="YYYY-MM-DD"
+                                />
+                            </div>
+                            <div className="container mx-auto h-10"></div>
+                            <div className="overflow-x-auto w-full">
+                                <Table striped>
+                                    <Table.Head>
+                                        <Table.HeadCell>Name</Table.HeadCell>
+                                        <Table.HeadCell>Paid</Table.HeadCell>
+                                        <Table.HeadCell>
+                                            Full Daraz
+                                        </Table.HeadCell>
+                                        <Table.HeadCell>Details</Table.HeadCell>
+                                    </Table.Head>
+                                    <Table.Body className="divide-y">
+                                        {scoutList.map((scout, index) => (
+                                            <Table.Row key={index}>
+                                                <Table.Cell>
+                                                    {scout.first_name +
+                                                        " " +
+                                                        scout.last_name}
+                                                </Table.Cell>
+                                                <Table.Cell>Hello</Table.Cell>
+
+                                                <Table.Cell>
+                                                    <Button
+                                                        className="mt-2"
+                                                        pill
+                                                        size="sm"
+                                                        color="blue"
+                                                        onClick={() =>
+                                                            handleViewScout(
+                                                                scout.id
+                                                            )
+                                                        }
+                                                    >
+                                                        <IoEyeOutline
+                                                            size={20}
+                                                        />
+                                                    </Button>
+                                                </Table.Cell>
+                                            </Table.Row>
+                                        ))}
+                                    </Table.Body>
+                                </Table>
+                            </div>
+                        </>
+                    ) : (
+                        <div>Pick Scout</div>
+                    )}
+                </div>
+                {/* <div className="overflow-x-auto w-full">
                     <Table striped>
                         <Table.Head>
-                            <Table.HeadCell>First Name</Table.HeadCell>
-                            <Table.HeadCell>Last Name</Table.HeadCell>
+                            <Table.HeadCell>Name</Table.HeadCell>
                             <Table.HeadCell>Present</Table.HeadCell>
                             <Table.HeadCell>Paid</Table.HeadCell>
                             <Table.HeadCell>Full Daraz</Table.HeadCell>
                             <Table.HeadCell>Details</Table.HeadCell>
                         </Table.Head>
                         <Table.Body className="divide-y">
-                            {khoumpList.map((scout, index) => (
+                            {scoutList.map((scout, index) => (
                                 <Table.Row key={index}>
-                                    <Table.Cell>{scout.first_name}</Table.Cell>
-                                    <Table.Cell>{scout.last_name}</Table.Cell>
                                     <Table.Cell>
-                                        <Checkbox
-                                            onChange={() =>
-                                                handlePresentCheck(scout.id)
-                                            }
-                                        />
+                                        {scout.first_name +
+                                            " " +
+                                            scout.last_name}
                                     </Table.Cell>
-                                    <Table.Cell>
-                                        <Checkbox
-                                            onChange={() =>
-                                                handlePaidCheck(scout.id)
-                                            }
-                                        />
-                                    </Table.Cell>
-                                    <Table.Cell>
-                                        <Checkbox
-                                            onChange={() =>
-                                                handleFullDarazCheck(scout.id)
-                                            }
-                                        />
-                                    </Table.Cell>
+
                                     <Table.Cell>
                                         <Button
                                             className="mt-2"
@@ -173,14 +169,13 @@ const AttendanceRecordsTable: React.FC = () => {
                             ))}
                         </Table.Body>
                     </Table>
-                </div>
+                </div> */}
                 <div className="overflow-x-auto w-full gap-4 p-4">
                     <Button
                         className="bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto"
                         size="md"
                         pill
                         type="submit"
-                        onClick={handleSubmitAttendance}
                     >
                         Submit
                         <HiOutlineArrowRight className="h-6 w-6" />
