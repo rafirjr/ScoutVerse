@@ -1,7 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { Table } from "flowbite-react";
 import { useAppDispatch } from "../redux/hooks";
-import { AttendanceData, ScoutPayload } from "../redux/types";
+import {
+    AttendanceData,
+    AttendancePayload,
+    ScoutPayload,
+} from "../redux/types";
 import { Button, Modal, Label, Select, Checkbox } from "flowbite-react";
 import {
     selectScoutState,
@@ -32,6 +36,8 @@ const AttendanceRecordsTable: React.FC = () => {
         attendanceState.attendanceScoutList.includes(scout.id)
     );
 
+    const attendanceRecords = attendanceState.allAttendance;
+
     const handleViewScout = (scoutID: string) => {
         dispatch(setCurrentScoutID(scoutID));
         setOpenModal(true);
@@ -55,6 +61,10 @@ const AttendanceRecordsTable: React.FC = () => {
             const dateToString = `${year}-${month}-${day}`;
             dispatch(fetchDateAttendance(dateToString));
         }
+    };
+
+    const getAttendanceForScout = (scoutID: string) => {
+        return attendanceRecords.find((record) => record.scout_id === scoutID);
     };
 
     return (
@@ -98,34 +108,48 @@ const AttendanceRecordsTable: React.FC = () => {
                                         <Table.HeadCell>Details</Table.HeadCell>
                                     </Table.Head>
                                     <Table.Body className="divide-y">
-                                        {scoutList.map((scout, index) => (
-                                            <Table.Row key={index}>
-                                                <Table.Cell>
-                                                    {scout.first_name +
-                                                        " " +
-                                                        scout.last_name}
-                                                </Table.Cell>
-                                                <Table.Cell>Hello</Table.Cell>
+                                        {scoutList.map((scout) => {
+                                            const attendance =
+                                                getAttendanceForScout(scout.id);
 
-                                                <Table.Cell>
-                                                    <Button
-                                                        className="mt-2"
-                                                        pill
-                                                        size="sm"
-                                                        color="blue"
-                                                        onClick={() =>
-                                                            handleViewScout(
-                                                                scout.id
-                                                            )
-                                                        }
-                                                    >
-                                                        <IoEyeOutline
-                                                            size={20}
-                                                        />
-                                                    </Button>
-                                                </Table.Cell>
-                                            </Table.Row>
-                                        ))}
+                                            return (
+                                                <Table.Row key={scout.id}>
+                                                    <Table.Cell>
+                                                        {scout.first_name +
+                                                            " " +
+                                                            scout.last_name}
+                                                    </Table.Cell>
+                                                    <Table.Cell>
+                                                        {attendance?.paid
+                                                            ? "Paid"
+                                                            : "Not Paid"}
+                                                    </Table.Cell>
+                                                    <Table.Cell>
+                                                        {attendance?.daraz
+                                                            ? "Full Daraz"
+                                                            : "Missing Daraz"}
+                                                    </Table.Cell>
+
+                                                    <Table.Cell>
+                                                        <Button
+                                                            className="mt-2"
+                                                            pill
+                                                            size="sm"
+                                                            color="blue"
+                                                            onClick={() =>
+                                                                handleViewScout(
+                                                                    scout.id
+                                                                )
+                                                            }
+                                                        >
+                                                            <IoEyeOutline
+                                                                size={20}
+                                                            />
+                                                        </Button>
+                                                    </Table.Cell>
+                                                </Table.Row>
+                                            );
+                                        })}
                                     </Table.Body>
                                 </Table>
                             </div>
