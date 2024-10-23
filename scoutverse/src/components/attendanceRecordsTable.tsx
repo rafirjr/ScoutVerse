@@ -86,7 +86,7 @@ const AttendanceRecordsTable: React.FC = () => {
         const scout_id = scout.id;
         dispatch(fetchScoutAttendance(scout_id));
         setSelectedScout(scout_id);
-        console.log(scout_id);
+        //console.log(scout_id);
     };
 
     return (

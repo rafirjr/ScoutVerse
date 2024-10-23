@@ -12,7 +12,7 @@ const router = express.Router();
 const { auth } = middleware;
 
 router.get("/:date", auth, getDateAttendance);
-router.get("/:scoutID", auth, getScoutAttendance);
+router.get("/records/:scoutID", auth, getScoutAttendance);
 router.post("/:scoutID", auth, logAttendance);
 router.delete("/:scoutID/attendance/:attendanceID", auth, deleteAttendance);
 router.put("/:scoutID/attendance/:attendanceID", auth, updateAttendance);

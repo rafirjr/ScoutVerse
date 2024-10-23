@@ -156,7 +156,7 @@ export const fetchScoutAttendance = (scoutID: string): AppThunk => {
             const dateList = await attendanceService.getScoutAttendance(
                 scoutID
             );
-            console.log(dateList);
+            //console.log(dateList);
             dispatch(setAttendanceDateList(dateList));
         } catch (error: any) {
             dispatch(setFetchAttendanceError(getErrorMsg(error)));
