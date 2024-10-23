@@ -10,7 +10,7 @@ interface initialAttendanceState {
     currentScoutID: string | null;
     currentDate: string | null;
     attendanceScoutList: string[]; // List of scout IDs for a specific date
-    attendanceDateList: string[]; // List of dates from a specific scout
+    attendanceDateList: AttendancePayload[]; // List of dates from a specific scout
     allAttendance: AttendancePayload[]; // All attendance records from specific date
     isLoading: boolean;
     fetchError: string | null;
@@ -56,7 +56,10 @@ const attendanceSlice = createSlice({
             state.currentScoutID = action.payload;
             state.fetchError = null;
         },
-        setAttendanceDateList: (state, action: PayloadAction<string[]>) => {
+        setAttendanceDateList: (
+            state,
+            action: PayloadAction<AttendancePayload[]>
+        ) => {
             state.attendanceDateList = action.payload;
             state.fetchError = null;
         },
@@ -71,7 +74,7 @@ const attendanceSlice = createSlice({
                 state.currentScoutID &&
                 state.currentScoutID === action.payload.scout_id
             ) {
-                state.attendanceDateList.push(action.payload.present_date);
+                state.attendanceDateList.push(action.payload);
             }
         },
         updateAttendanceRecord: (
@@ -153,6 +156,7 @@ export const fetchScoutAttendance = (scoutID: string): AppThunk => {
             const dateList = await attendanceService.getScoutAttendance(
                 scoutID
             );
+            console.log(dateList);
             dispatch(setAttendanceDateList(dateList));
         } catch (error: any) {
             dispatch(setFetchAttendanceError(getErrorMsg(error)));

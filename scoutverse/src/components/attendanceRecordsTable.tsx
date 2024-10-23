@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Table } from "flowbite-react";
+import { Table, TextInput } from "flowbite-react";
 import { useAppDispatch } from "../redux/hooks";
 import {
     AttendanceData,
@@ -17,10 +17,12 @@ import { useSelector } from "react-redux";
 import { IoEyeOutline } from "react-icons/io5";
 import {
     fetchDateAttendance,
+    fetchScoutAttendance,
     selectAttendanceState,
 } from "../redux/slices/attendanceSlice";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import ReactDatePicker from "react-datepicker";
+import { FaRegCheckCircle } from "react-icons/fa";
 
 const AttendanceRecordsTable: React.FC = () => {
     const navigate = useNavigate();
@@ -30,11 +32,19 @@ const AttendanceRecordsTable: React.FC = () => {
     const [openModal, setOpenModal] = useState(false);
     const [filterBy, setFilterBy] = useState(true);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [selectedDateString, setSelectedDateString] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
+    const [selectedScout, setSelectedScout] = useState("");
 
     const allScouts = scoutState.allScouts;
     const scoutList = allScouts.filter((scout) =>
         attendanceState.attendanceScoutList.includes(scout.id)
     );
+
+    const searchedScouts = allScouts.filter((scout) => {
+        const name = scout.first_name + " " + scout.last_name;
+        return name.toLowerCase().includes(searchTerm.toLowerCase());
+    });
 
     const attendanceRecords = attendanceState.allAttendance;
 
@@ -60,11 +70,23 @@ const AttendanceRecordsTable: React.FC = () => {
             const day = date.getDate();
             const dateToString = `${year}-${month}-${day}`;
             dispatch(fetchDateAttendance(dateToString));
+            setSelectedDateString(dateToString);
         }
     };
 
     const getAttendanceForScout = (scoutID: string) => {
-        return attendanceRecords.find((record) => record.scout_id === scoutID);
+        return attendanceRecords.find(
+            (record) =>
+                record.scout_id === scoutID &&
+                record.present_date === selectedDateString
+        );
+    };
+
+    const handleSelectScout = (scout: ScoutPayload) => {
+        const scout_id = scout.id;
+        dispatch(fetchScoutAttendance(scout_id));
+        setSelectedScout(scout_id);
+        console.log(scout_id);
     };
 
     return (
@@ -155,45 +177,125 @@ const AttendanceRecordsTable: React.FC = () => {
                             </div>
                         </>
                     ) : (
-                        <div>Pick Scout</div>
+                        // Displays when user wants to search for specific scout
+                        <>
+                            <div className="mb-2 block">
+                                <Label htmlFor="Name" value="Name" />
+                            </div>
+                            <TextInput
+                                type="text"
+                                placeholder="Search by name"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full"
+                            />
+                            <div className="container mx-auto h-10"></div>
+                            <div className="overflow-x-auto w-full">
+                                <Table striped>
+                                    <Table.Head>
+                                        <Table.HeadCell>Name</Table.HeadCell>
+                                        <Table.HeadCell>Select</Table.HeadCell>
+                                        <Table.HeadCell>Details</Table.HeadCell>
+                                    </Table.Head>
+                                    <Table.Body className="divide-y">
+                                        {searchedScouts.map((scout) => {
+                                            return (
+                                                <Table.Row key={scout.id}>
+                                                    <Table.Cell>
+                                                        {scout.first_name +
+                                                            " " +
+                                                            scout.last_name}
+                                                    </Table.Cell>
+                                                    <Table.Cell>
+                                                        <Button
+                                                            className=""
+                                                            pill
+                                                            size="sm"
+                                                            color="green"
+                                                            onClick={() =>
+                                                                handleSelectScout(
+                                                                    scout
+                                                                )
+                                                            }
+                                                        >
+                                                            <FaRegCheckCircle />
+                                                        </Button>
+                                                    </Table.Cell>
+
+                                                    <Table.Cell>
+                                                        <Button
+                                                            className="mt-2"
+                                                            pill
+                                                            size="sm"
+                                                            color="blue"
+                                                            onClick={() =>
+                                                                handleViewScout(
+                                                                    scout.id
+                                                                )
+                                                            }
+                                                        >
+                                                            <IoEyeOutline
+                                                                size={20}
+                                                            />
+                                                        </Button>
+                                                    </Table.Cell>
+                                                </Table.Row>
+                                            );
+                                        })}
+                                    </Table.Body>
+                                </Table>
+                            </div>
+                            {selectedScout ? ( // Displays when scout is selected
+                                <div className="overflow-x-auto w-full">
+                                    <Table striped>
+                                        <Table.Head>
+                                            <Table.HeadCell>
+                                                Date
+                                            </Table.HeadCell>
+                                            <Table.HeadCell>
+                                                Paid
+                                            </Table.HeadCell>
+                                            <Table.HeadCell>
+                                                Daraz
+                                            </Table.HeadCell>
+                                        </Table.Head>
+                                        <Table.Body className="divide-y">
+                                            {attendanceState.attendanceDateList.map(
+                                                (record) => {
+                                                    return (
+                                                        <Table.Row
+                                                            key={
+                                                                record.attendance_id
+                                                            }
+                                                        >
+                                                            <Table.Cell>
+                                                                {
+                                                                    record.present_date
+                                                                }
+                                                            </Table.Cell>
+                                                            <Table.Cell>
+                                                                {record.paid
+                                                                    ? "Paid"
+                                                                    : "Not Paid"}
+                                                            </Table.Cell>
+                                                            <Table.Cell>
+                                                                {record.daraz
+                                                                    ? "Full Daraz"
+                                                                    : "Missing Daraz"}
+                                                            </Table.Cell>
+                                                        </Table.Row>
+                                                    );
+                                                }
+                                            )}
+                                        </Table.Body>
+                                    </Table>
+                                </div>
+                            ) : (
+                                <></>
+                            )}
+                        </>
                     )}
                 </div>
-                {/* <div className="overflow-x-auto w-full">
-                    <Table striped>
-                        <Table.Head>
-                            <Table.HeadCell>Name</Table.HeadCell>
-                            <Table.HeadCell>Present</Table.HeadCell>
-                            <Table.HeadCell>Paid</Table.HeadCell>
-                            <Table.HeadCell>Full Daraz</Table.HeadCell>
-                            <Table.HeadCell>Details</Table.HeadCell>
-                        </Table.Head>
-                        <Table.Body className="divide-y">
-                            {scoutList.map((scout, index) => (
-                                <Table.Row key={index}>
-                                    <Table.Cell>
-                                        {scout.first_name +
-                                            " " +
-                                            scout.last_name}
-                                    </Table.Cell>
-
-                                    <Table.Cell>
-                                        <Button
-                                            className="mt-2"
-                                            pill
-                                            size="sm"
-                                            color="blue"
-                                            onClick={() =>
-                                                handleViewScout(scout.id)
-                                            }
-                                        >
-                                            <IoEyeOutline size={20} />
-                                        </Button>
-                                    </Table.Cell>
-                                </Table.Row>
-                            ))}
-                        </Table.Body>
-                    </Table>
-                </div> */}
                 <div className="overflow-x-auto w-full gap-4 p-4">
                     <Button
                         className="bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto"

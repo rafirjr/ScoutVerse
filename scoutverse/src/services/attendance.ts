@@ -19,7 +19,12 @@ const getDateAttendance = async (date: string) => {
 
 // Get all attendance logs of a scout
 const getScoutAttendance = async (scoutID: string) => {
-    const response = await axios.get(`${baseUrl}/${scoutID}`, setConfig());
+    const response = await axios.get(`${baseUrl}/${scoutID}`, {
+        headers: {
+            "x-auth-token": token,
+            "Content-Type": "application/json",
+        },
+    });
     return response.data;
 };
 
