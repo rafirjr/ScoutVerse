@@ -21,6 +21,9 @@ const AttendanceRecordsPage: React.FC = () => {
             </div>
             <div className="container mx-auto h-10"></div>
             <AttendanceRecordsTable />
+            <div className="container mx-auto h-10"></div>
+            <div className="container mx-auto h-10"></div>
+            <div className="container mx-auto h-10"></div>
         </div>
     );
 };

@@ -20,7 +20,6 @@ import {
     fetchScoutAttendance,
     selectAttendanceState,
 } from "../redux/slices/attendanceSlice";
-import { HiOutlineArrowRight } from "react-icons/hi";
 import ReactDatePicker from "react-datepicker";
 import { FaRegCheckCircle } from "react-icons/fa";
 
@@ -260,8 +259,18 @@ const AttendanceRecordsTable: React.FC = () => {
                                             </Table.HeadCell>
                                         </Table.Head>
                                         <Table.Body className="divide-y">
-                                            {attendanceState.attendanceDateList.map(
-                                                (record) => {
+                                            {attendanceState.attendanceDateList
+                                                .slice()
+                                                .sort(
+                                                    (a, b) =>
+                                                        new Date(
+                                                            b.present_date
+                                                        ).getTime() -
+                                                        new Date(
+                                                            a.present_date
+                                                        ).getTime()
+                                                )
+                                                .map((record) => {
                                                     return (
                                                         <Table.Row
                                                             key={
@@ -285,8 +294,7 @@ const AttendanceRecordsTable: React.FC = () => {
                                                             </Table.Cell>
                                                         </Table.Row>
                                                     );
-                                                }
-                                            )}
+                                                })}
                                         </Table.Body>
                                     </Table>
                                 </div>
@@ -295,17 +303,6 @@ const AttendanceRecordsTable: React.FC = () => {
                             )}
                         </>
                     )}
-                </div>
-                <div className="overflow-x-auto w-full gap-4 p-4">
-                    <Button
-                        className="bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto"
-                        size="md"
-                        pill
-                        type="submit"
-                    >
-                        Submit
-                        <HiOutlineArrowRight className="h-6 w-6" />
-                    </Button>
                 </div>
 
                 <Modal show={openModal} onClose={() => setOpenModal(false)}>
